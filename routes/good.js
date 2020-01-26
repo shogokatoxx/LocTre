@@ -36,13 +36,13 @@ router.post('/',function(req,res,next){
 });
 
 //bcryptの試しルート
-router.get('/test',function(req,res,next){
-  var target = 'syogo0327';
-  var hash = bcrypt.hashSync(target,10);
-  console.log(hash);
-  var flg = bcrypt.compareSync('syogo0327',hash);
-  console.log('検証結果:',flg);
-  res.send(hash);
-});
+// router.get('/test',function(req,res,next){
+//   var target = 'syogo0327';
+//   var hash = bcrypt.hashSync(target,10);
+//   console.log(hash);
+//   var flg = bcrypt.compareSync('syogo0327',hash);
+//   console.log('検証結果:',flg);
+//   res.send(hash);
+// });
 
 module.exports = router;

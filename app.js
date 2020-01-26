@@ -6,6 +6,11 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var validator = require('express-validator');
 var logger = require('morgan');
+const { Pool } = require('pg');
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: true
+});
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -43,6 +48,18 @@ app.use('/detail',detailRouter);
 app.use('/create',create);
 app.use('/good',good);
 app.use('/pass',pass);
+app.get('/db', async (req, res) => {
+    try {
+      const client = await pool.connect()
+      const result = await client.query('SELECT * FROM test_table');
+      const results = { 'results': (result) ? result.rows : null};
+      res.render('pages/db', results );
+      client.release();
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
+    }
+  })
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
