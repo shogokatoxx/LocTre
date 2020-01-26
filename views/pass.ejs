@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>passportテスト</title>
+  </head>
+  <body>
+    <% if(user){ %>
+      <h2>Hi<%= user.username %>!! You are now logged in</h2>
+      <form action="/logout" method="post">
+        <input type="submit" value="Logout">
+      </form>
+      <hr>
+    <% } %>
+    <form action="/pass" method="post">
+      <input type="text" name="username">
+      <input type="password" name="password">
+      <input type="submit" value="送信">
+    </form>
+  </body>
+</html>

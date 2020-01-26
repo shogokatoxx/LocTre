@@ -1,8 +1,210 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+body{
+  padding:0;
+  margin:0;
+  font-size:16px;
+}
+#top header{
+  width:100%;
+  height:100px;
+  margin:0 auto;
+  background-color:yellow;
+}
+#lists header,#detail header{
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:2;
+  width:100%;
+  height:70px;
+  margin:0 auto;
+  background-color:yellow;
+}
+#top .logo{
+  float:left;
+
+}
+#lists .logo,#detail .logo{
+  float:left;
+  color:#333;
+  font-family:'Bitter',serif;
+}
+#lists .logo .menu-btn,#detail .logo .menu-btn{
+  float:left;
+  height:70px;
+  width:5rem;
+}
+#lists .logo .menu-link,#detail .logo .menu-link{
+  color:#999;
+  font-size:45px;
+  margin-left:20px;
+}
+#lists .logo .menu-btn:hover,#detail .logo .menu-btn:hover{
+  text-decoration:none;
+  opacity:0.8;
+  background-color:#ffd700;
+}
+#lists .logo h1,#detail .logo h1{
+  margin-top:10px;
+  color:#333;
+  font-family:'Bitter',serif;
+  float:right;
+  margin-left:30px;
+  /* margin-left:150px; */
+}
+.logo span{
+  font-size:25px;
+  font-family:arial;
+}
+#top .global-nav{
+  float:right;
+  margin-top:40px;
+  margin-right:100px;
+}
+#lists .global-nav,#detail .global-nav{
+  float:right;
+  margin-top:10px;
+  margin-right:100px;
+}
+.global-nav li{
+  float:left;
+  margin:0 20px;
+  font-size:20px;
+  list-style:none;
+}
+#lists .global-nav li,#detail .global-nav li{
+  float:left;
+  margin:0 20px;
+  list-style:none;
+  font-size:30px;
+  color:#666;
+}
+#lists .global-nav li:hover,#detail .global-nav li:hover{
+  opacity:0.8;
+  cursor:pointer;
+}
+#top .global-nav li a{
+  color:#666;
+}
+#top .global-nav li a:hover{
+  border-bottom:2px solid #ffffff;
+  text-decoration:none;
+}
+#top{
+  clear:both;
+}
+.top-title h1{
+  font-size:100px;
+  line-height:1;
+  color:#ffd744;
+  font-family:'Bitter',serif;
+  margin-bottom:40px;
+  margin-top:100px;
+  margin-left:150px;
+}
+.top-image{
+  float:right;
+  margin-right:150px;
+}
+.top-content p{
+  margin-top:130px;
+  margin-left:150px;
+}
+.top-start-btn p a{
+  background-color:#009cd3;
+  color:#fff;
+  font-size:20px;
+  font-family:'Bitter',serif;
+  width:185px;
+  display:block;
+  text-align:center;
+  line-height:50px;
+  margin-top:20px;
+  border-radius:5px;
+  border:3px solid #009cd3;
+  margin-left:150px;
+  margin-top:80px;
+}
+.top-start-btn p a:hover{
+  text-decoration:none;
+  background-color:#fff;
+  color:#009cd3;
 }
 
-a {
-  color: #00B7FF;
+#main .base-title h1{
+  font-family:'Bitter',serif;
+  font-size:50px;
+  margin-top:50px;
+}
+#main .base-title p{
+  padding-top:30px;
+  font-size:18px;
+  font-family:arial;
+}
+#main {
+  position:relative;
+  margin-top:70px;
+}
+#main .click-menu{
+  position:fixed;
+  top:-100%;
+  left:0;
+  width:20%;
+  height:100%;
+  border-right:1px solid #666;
+  transition:0.5s ease-out;
+  background:#fff;
+}
+#main .click-menu.open{
+  top:70px;
+  transition:0.5s ease-out;
+  background:#fff;
+}
+#main .boxs{
+  height:1rem;
+  width:100%;
+}
+.menu-content .menus{
+  font-size:28px;
+  line-height:2;
+}
+.menu-content .menus .menu-link{
+  color:#333;
+}
+.menu-content .menus .menu-link:hover{
+  border-bottom:1.5px solid #333;
+}
+#main .container{
+  transition:1s ease-out;
+}
+#main .container.open{
+  width:100%;
+  margin:0 0 0 auto;
+  transition:1s ease-out;
+}
+
+
+/* いいねボタン専用クラス */
+.fass{
+  color:red;
+  transition:1s ease-out;
+}
+.farr{
+  color:#999;
+  transition:1s ease-out;
+}
+.good-btn{
+  border:none;
+  cursor:pointer;
+}
+.good-btn:hover{
+  opacity:0.8;
+}
+.good-btn:focus{
+  outline:none;
+}
+
+.icon:before{
+  content:'';
+  padding:3px;
+  border-left:7px solid #9ac4a4;
 }
