@@ -1,11 +1,11 @@
 var DB = require('./db_con').DB;
 
 var User = DB.Model.extend({
-  tableName:'User'
+  tableName:'users'
 });
 
 var Product = DB.Model.extend({
-  tableName:'Product',
+  tableName:'products',
   // hasTimestamps:true,
   user:function(){
     return this.belongsTo(User,'user_id');
@@ -13,7 +13,7 @@ var Product = DB.Model.extend({
 });
 
 var Good = DB.Model.extend({
-  tableName:'Good'
+  tableName:'goods'
 });
 
 module.exports = {
