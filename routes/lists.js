@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var models = require('../config/models');
+var dbConfig = require('../config/db_con');
 
 var User = models.User;
 var Product = models.Product;
@@ -27,7 +28,8 @@ router.get('/',function(req,res,next){
       title:'・全制作物一覧(新規順)',
       content:collection.toArray(),
       users:users,
-      goods:goods
+      goods:goods,
+      // pagination:collection.pagination
     };
     console.log(users);
     res.render('lists',data);
