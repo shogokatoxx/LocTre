@@ -91,42 +91,42 @@
             </div>
           </form>
         </div>
-      <div class="click-menu">
-        <div class="profile pt-sm-5 pb-sm-3" style="background-color:#4e4e4e;">
-          <div class="profile-img" style="text-align:center;">
-            <img src="../uploads/<%= users.attributes.filename %>" alt="<%= users.attributes.username %>" height="60" width="60" style="border-radius:30px;">
+        <div class="click-menu">
+          <div class="profile pt-sm-5 pb-sm-3" style="background-color:#4e4e4e;">
+            <div class="profile-img" style="text-align:center;">
+              <img src="../uploads/<%= users.attributes.filename %>" alt="<%= users.attributes.username %>" height="60" width="60" style="border-radius:30px;">
+            </div>
+            <div class="profile-text" style="text-align:center;color:#fff;">
+              <p style="font-size:20px;"><%= users.attributes.username %></p>
+            </div>
           </div>
-          <div class="profile-text" style="text-align:center;color:#fff;">
-            <p style="font-size:20px;"><%= users.attributes.username %></p>
+          <div class="menu-content mt-sm-3" style="text-align:center;">
+            <div class="menus">
+              <a href="/lists/mypage" class="menu-link"><i class="fa fa-male "> マイページ</i> </a>
+            </div>
+            <div class="menus">
+              <a href="/create" class="menu-link"><i class="fa fa-pencil menu-font"> 新規投稿</i></a>
+            </div>
+            <div class="menus">
+              <a href="/lists" class="menu-link"><i class="fa fa-sort-numeric-asc "> 新規順</i></a>
+            </div>
+            <div class="menus">
+              <a href="/lists/goodranking" class="menu-link"><i class="fa fa-thumbs-o-up "> 人気順</i></a>
+            </div>
+            <div class="menus">
+              <a href="/lists/lists_good" class="menu-link"><i class="fa fa-heart "> いいねした投稿</i></a>
+            </div>
+            <div class="menus">
+              <a href="/users/logout" class="menu-link"><i class="fa fa-caret-square-o-right "> ログアウト</i> </a>
+            </div>
+            <div class="menus">
+              <a href="/users" class="menu-link"><i class="fa fa-caret-square-o-left "> ログイン</i></a>
+            </div>
+            <div class="menus">
+              <a href="/users/signup" class="menu-link"><i class="fa fa-group "> Sign Up</i></a>
+            </div>
           </div>
         </div>
-        <div class="menu-content mt-sm-3" style="text-align:center;">
-          <div class="menus">
-            <a href="/lists/mypage" class="menu-link"><i class="fa fa-male "> マイページ</i> </a>
-          </div>
-          <div class="menus">
-            <a href="/create" class="menu-link"><i class="fa fa-pencil menu-font"> 新規投稿</i></a>
-          </div>
-          <div class="menus">
-            <a href="/lists/" class="menu-link"><i class="fa fa-sort-numeric-asc "> 新規順</i></a>
-          </div>
-          <div class="menus">
-            <a href="/lists/goodranking" class="menu-link"><i class="fa fa-thumbs-o-up "> 人気順</i></a>
-          </div>
-          <div class="menus">
-            <a href="/lists/lists_good" class="menu-link"><i class="fa fa-heart "> いいねした投稿</i></a>
-          </div>
-          <div class="menus">
-            <a href="/users/logout" class="menu-link"><i class="fa fa-caret-square-o-right "> ログアウト</i> </a>
-          </div>
-          <div class="menus">
-            <a href="/users" class="menu-link"><i class="fa fa-caret-square-o-left "> ログイン</i></a>
-          </div>
-          <div class="menus">
-            <a href="/users/signup" class="menu-link"><i class="fa fa-group "> Sign Up</i></a>
-          </div>
-        </div>
-      </div>
       <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="labell" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
