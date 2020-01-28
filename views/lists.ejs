@@ -37,7 +37,7 @@
             </div>
           </div>
           <div class="col-6 col-sm-4">
-            <img src="../images/loctre_treasure.png" alt="local-treasure-picture">
+            <img src="../../images/loctre_treasure.png" alt="local-treasure-picture">
           </div>
         </div>
       </div>
@@ -58,7 +58,7 @@
               <div class="card" style="border:1px solid #666;border-radius:10px;">
                 <div class="card-header">
                   <a href="/detail/<%= obj.id %>/<%= obj.relations.user.id %>/">
-                    <img src="../uploads/<%= obj.attributes.images %>" alt="<%= obj.title %>" height="100%" width="100%">
+                    <img src="../../uploads/<%= obj.attributes.images %>" alt="<%= obj.title %>" height="100%" width="100%">
                   </a>
                 </div>
                 <div class="card-body">
@@ -69,7 +69,7 @@
                     <p style="margin:0;"><%= obj.attributes.description %></p>
                     <div class="row">
                       <div class="col-4 col-sm-4">
-                        <img src="../uploads/<%= obj.relations.user.attributes.filename %>" alt="<%= obj.relations.user.attributes.username %>" height="50" width="50" style="border-radius:25px;">
+                        <img src="../../uploads/<%= obj.relations.user.attributes.filename %>" alt="<%= obj.relations.user.attributes.username %>" height="50" width="50" style="border-radius:25px;">
                       </div>
                       <div class="col-6 col-sm-6 pt-sm-3">
                         <p><%= obj.relations.user.attributes.username %></p>
@@ -106,10 +106,29 @@
             </div>
           <% } %>
         </div>
+        <nav aria-label="Page navigation">
+          <ul class="pagination justify-content-center mt-sm-5 p-sm-3" style="border:1px solid #999;">
+            <li class="page-item"><a class="page-link" href="/lists/<%= pass %>/1">&lt;&lt; First</a></li>
+            <% if(pagination.page == 1){ %>
+              <% if(pagination.page+1 <= pagination.pageCount){ %>
+                <li class="page-item"><a class="page-link" href="/lists/<%= pass %>/<%= pagination.page+1 %>"><%= pagination.page+1 %></a></li>
+              <% } %>
+              <% if(pagination.page+2 <= pagination.pageCount){ %>
+                <li class="page-item"><a class="page-link" href="/lists/<%= pass %>/<%= pagination.page+2 %>"><%= pagination.page+2 %></a></li>
+              <% } %>
+            <% }else{ %>
+              <li class="page-item"><a class="page-link" href="/lists/<%= pass %>/<%= pagination.page-1 %>"><%= pagination.page-1 %></a></li>
+              <% if(pagination.page-2 > 0){ %>
+                  <li class="page-item"><a class="page-link" href="/lists/<%= pass %>/<%= pagination.page-2 %>"><%= pagination.page-2 %></a></li>
+              <% } %>
+            <% } %>
+            <li class="page-item"><a class="page-link" href="/lists/<%= pass %>/<%= pagination.pageCount %>">Next &gt;&gt;</a></li>
+          </ul>
+        </nav>
         <div class="click-menu">
           <div class="profile pt-sm-5 pb-sm-3" style="background-color:#4e4e4e;">
             <div class="profile-img" style="text-align:center;">
-              <img src="../uploads/<%= users.attributes.filename %>" alt="<%= users.attributes.username %>" height="60" width="60" style="border-radius:30px;">
+              <img src="../../uploads/<%= users.attributes.filename %>" alt="<%= users.attributes.username %>" height="60" width="60" style="border-radius:30px;">
             </div>
             <div class="profile-text" style="text-align:center;color:#fff;">
               <p style="font-size:20px;"><%= users.attributes.username %></p>
@@ -123,13 +142,13 @@
               <a href="/create" class="menu-link"><i class="fa fa-pencil menu-font"> 新規投稿</i></a>
             </div>
             <div class="menus">
-              <a href="/lists" class="menu-link"><i class="fa fa-sort-numeric-asc "> 新規順</i></a>
+              <a href="/lists/lists/1" class="menu-link"><i class="fa fa-sort-numeric-asc "> 新規順</i></a>
             </div>
             <div class="menus">
-              <a href="/lists/goodranking" class="menu-link"><i class="fa fa-thumbs-o-up "> 人気順</i></a>
+              <a href="/lists/goodranking/1" class="menu-link"><i class="fa fa-thumbs-o-up "> 人気順</i></a>
             </div>
             <div class="menus">
-              <a href="/lists/lists_good" class="menu-link"><i class="fa fa-heart "> いいねした投稿</i></a>
+              <a href="/lists/lists_good/1" class="menu-link"><i class="fa fa-heart "> いいねした投稿</i></a>
             </div>
             <div class="menus">
               <a href="/users/logout" class="menu-link"><i class="fa fa-caret-square-o-right "> ログアウト</i> </a>

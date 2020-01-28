@@ -9,13 +9,16 @@ var Product = models.Product;
 var Good = models.Good;
 
 // 全一覧ビュー(新規順)
-router.get('/',function(req,res,next){
+router.get('/lists/:page',function(req,res,next){
   if(req.session.login == null){
     res.redirect('/users');
     return;
   }
   var users;
   let goods;
+  let page = req.params.page;
+  page *= 1;
+  if(page < 1){page = 1;}
   let loginUserObj = req.session.login;
   new User().where('id','=',loginUserObj.id).fetch().then((collection)=>{
     users = collection;
@@ -23,15 +26,18 @@ router.get('/',function(req,res,next){
   new Good().where('user_id','=',loginUserObj.id).fetchAll().then((collection)=>{
     goods = collection.toArray();
   });
-  new Product().where('publish','=','Public').orderBy('created_at','DESC').fetchAll({withRelated:['user']}).then((collection) => {
+  new Product().where('publish','=','Public').orderBy('created_at','DESC').fetchPage({pageSize:12,page:page,withRelated:['user']}).then((collection) => {
     var data = {
       title:'・全制作物一覧(新規順)',
+      pass:'lists',
       content:collection.toArray(),
+      pagination:collection.pagination,
       users:users,
       goods:goods,
       // pagination:collection.pagination
     };
     console.log(users);
+    console.log(collection.pagination);
     res.render('lists',data);
   })
   .catch((err) => {
@@ -69,13 +75,16 @@ router.get('/mypage',function(req,res,next){
 });
 
 // 全制作物一覧(人気順)
-router.get('/goodranking',function(req,res,next){
+router.get('/goodranking/:page',function(req,res,next){
   if(req.session.login == null){
     res.redirect('/users');
     return;
   }
   var users;
   let goods;
+  let page = req.params.page;
+  page *= 1;
+  if(page < 1){page = 1;}
   let loginUserObj = req.session.login;
   new User().where('id','=',loginUserObj.id).fetch().then((collection)=>{
     users = collection;
@@ -83,12 +92,14 @@ router.get('/goodranking',function(req,res,next){
   new Good().where('user_id','=',loginUserObj.id).fetchAll().then((collection)=>{
     goods = collection.toArray();
   });
-  new Product().where('publish','=','Public').orderBy('good_count','DESC').fetchAll({withRelated:['user']}).then((collection) => {
+  new Product().where('publish','=','Public').orderBy('good_count','DESC').fetchPage({page:page,pageSize:12,withRelated:['user']}).then((collection) => {
     var data = {
       title:'・全制作物一覧(人気順)',
+      pass:'goodranking',
       content:collection.toArray(),
       users:users,
-      goods:goods
+      goods:goods,
+      pagination:collection.pagination
     };
     console.log(users);
     res.render('lists',data);
@@ -99,13 +110,16 @@ router.get('/goodranking',function(req,res,next){
 });
 
 // いいねした制作物一覧
-router.get('/lists_good',function(req,res,next){
+router.get('/lists_good/:page',function(req,res,next){
   if(req.session.login == null){
     res.redirect('/users');
     return;
   }
   var users;
   let goods;
+  let page = req.params.page;
+  page *= 1;
+  if(page < 1){page = 1;}
   let loginUserObj = req.session.login;
   new User().where('id','=',loginUserObj.id).fetch().then((collection)=>{
     users = collection;
@@ -116,6 +130,7 @@ router.get('/lists_good',function(req,res,next){
   new Product().orderBy('good_count','DESC').fetchAll({withRelated:['user']}).then((collection) => {
     var data = {
       content:collection.toArray(),
+      pagination:collection.pagination,
       users:users,
       goods:goods
     };
@@ -127,8 +142,19 @@ router.get('/lists_good',function(req,res,next){
         }
       }
     }
+    let listLen = objlist.length;//配列全体の長さ
+    let pageCount = Math.floor(listLen/12);//pagesize12で切り捨て
+    if(pageCount != listLen/12){//12、24などちょうど割り切れるときにも+1すると空のページが一つできてしまうのでその対策
+        pageCount+=1;
+    }
+    let x = (page-1)*12;//1の場合0,12  2の場合12,24と
+    let y = page*12;
     data = {
-      content:objlist,
+      content:objlist.slice(x,y),
+      pagination:{
+        page:page,
+        pageCount:pageCount
+      },
       users:users,
       goods:goods
     }

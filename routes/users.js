@@ -123,7 +123,7 @@ router.post('/',function(req,res,next){
         console.log(hashValidation(password,result.attributes.password));
         if(hashValidation(password,result.attributes.password)){
           req.session.login = result.attributes;
-          res.redirect('/lists');
+          res.redirect('/lists/lists/1');
         }else{
           console.log('ハッシュの検証が失敗しました。');
           var data = {
