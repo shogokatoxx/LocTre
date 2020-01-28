@@ -86,7 +86,10 @@
               </div>
             </div>
             <label for="create_image">画像：</label><br>
-            <input id="create_image" class="create-image" type="file" name="thumbnail" value="<%= image %>"><br>
+            <input id="file" class="create-image" type="file" name="thumbnail" value="<%= image %>"><br>
+            <div class="images">
+              <img id="result" src="">
+            </div>
             <div class="create_send_btn pr-3 pr-sm-5" style="text-align:right;">
               <input class="btn btn-primary" style="font-size:20px; width:100px;" type="submit" value="保存">
             </div>

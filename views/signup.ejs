@@ -63,7 +63,10 @@
             <label for="password">password:</label><br>
             <input id="password" class="form-control responsive-input" type="password" name="password" placeholder="パスワード" value="<%= form.password %>">
             <label for="profile">プロフィール画像</label><br>
-            <input type="file" id="profile" class="signup-image" name="profile" value="<%= profile %>"><br>
+            <input type="file" id="file" class="signup-image" name="profile" value="<%= profile %>"><br>
+            <div class="images">
+              <img id="result" src="">
+            </div>
             <div class="create_send_btn pr-3 mt-3 pr-sm-5 mt-sm-5" style="text-align:center;">
               <input class="btn btn-primary" style="font-size:20px; width:100px;" type="submit" value="作成">
             </div>

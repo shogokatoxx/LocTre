@@ -25,6 +25,20 @@ document.addEventListener('DOMContentLoaded',function(){
   });
 },false);
 
+document.addEventListener('DOMContentLoaded',function(){
+  document.getElementById('file').addEventListener('change',function(e){
+    let input = document.getElementById('file').files[0];
+    let reader = new FileReader();
+    reader.addEventListener('load',function(e){
+      let result = document.getElementById('result');
+      result.setAttribute('height',100);
+      result.setAttribute('width',150);
+      result.src = reader.result;
+    },true);
+    reader.readAsDataURL(input);
+  },true);
+});
+
 $(function(){
   let $good = $('.good-btn');
   $good.on('click',function(e){
@@ -53,3 +67,12 @@ $(function(){
     });
   });
 });
+
+// $(function(){
+//   $('.card-content p').readmore({
+//     speed: 100,
+//     maxHeight: 50,
+//     moreLink: '<a href="#">続きを読む</a>',
+//     lessLink: '<a href="#">閉じる</a>',
+//   });
+// });

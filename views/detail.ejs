@@ -58,7 +58,7 @@
           </div>
           <div class="col-12 col-sm-6 mt-2" style="border:1px solid #999999;font-size:14px;font-family:arial; border-radius:10px;">
             <h1 class="detail-description-title">- 概要</h1>
-            <p class="mt-2 mt-2 mt-sm-4"><%= product.attributes.description %></p>
+            <p class="mt-2 mt-2 mt-sm-4"><%- product.attributes.description %></p>
             <% var d = new Date(product.attributes.created_at);
             var month = ('0'+d.getMonth()).slice(-2);
             var date = ('0'+d.getDate()).slice(-2);

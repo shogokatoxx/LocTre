@@ -52,6 +52,7 @@ router.post('/',upload.single('thumbnail'),(req,res)=>{
     console.log(e.message);
   }
   req.check('thumbnail','画像は必ず入れてください。').notEmpty();
+  req.sanitize('description').escape();
   req.getValidationResult().then((result)=>{
     if(!result.isEmpty()){
       console.log(req.body.thumbnail);
@@ -81,6 +82,8 @@ router.post('/',upload.single('thumbnail'),(req,res)=>{
       if(description==''){
         description += 'None';
       }
+      description = description.replace(/\r?\n/g, '<br>');
+      console.log(description);
       new Product({'user_id':loginUserObj.id,'title':title,'description':description,'images':create_image,'publish':publish,'created_at':formatted}).save().then((collection)=>{
         res.redirect('/lists')
       });

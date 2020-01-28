@@ -66,7 +66,16 @@
                     <h4><%= obj.attributes.title %></h4>
                   </div>
                   <div class="card-content">
-                    <p style="margin:0;"><%= obj.attributes.description %></p>
+                    <% var str = obj.attributes.description; %>
+                    <% if(str.length > 20){ %>
+                      <% str = str.slice(0,20); %>
+                      <% objId = obj.id; %>
+                      <% userId = obj.relations.user.id; %>
+                      <% str+='<br><a href="/detail/'; %>
+                      <% str+=objId+'/'+userId; %>
+                      <% str+='">続きを読む</a>'; %>
+                    <% } %>
+                    <p style="margin:0;"><%- str %></p>
                     <div class="row">
                       <div class="col-4 col-sm-4">
                         <img src="../../uploads/<%= obj.relations.user.attributes.filename %>" alt="<%= obj.relations.user.attributes.username %>" height="50" width="50" style="border-radius:25px;">
