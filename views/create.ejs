@@ -2,7 +2,8 @@
 <html>
   <head>
     <title>LocTreローカルに眠っているアプリを管理</title>
-    <meta name="viewport" content="width=device-width,user-scalable=yes,maximum-scale=2">
+    <!-- <meta name="viewport" content="width=device-width,user-scalable=yes,maximum-scale=2"> -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -28,7 +29,7 @@
       <div class="container">
         <div class="boxs"></div>
         <div class="row" style="border:1px solid #666;border-radius:10px;">
-          <div class="col-6 col-sm-8">
+          <div class="col-12 col-sm-8">
             <div class="base-title">
               <h1>LocalTreasure</h1>
               <p>ローカルに眠ったアプリを管理。<br>
@@ -36,14 +37,14 @@
               (Twitterへのシェア機能は後日実装予定です。)</p>
             </div>
           </div>
-          <div class="col-6 col-sm-4">
+          <div class="base-image col-12 col-sm-4">
             <img src="../images/loctre_treasure.png" alt="local-treasure-picture">
           </div>
         </div>
       </div>
       <div class="container mt-sm-5">
         <div class="row">
-          <div class="col-8 col-sm-8">
+          <div class="col-12 col-sm-8">
             <div class="lists-title">
               <h2>・新規投稿</h2>
             </div>
@@ -53,7 +54,7 @@
       <div class="container">
         <div class="row">
           <div class="col-sm-12">
-            <ul>
+            <ul class="mini-ul">
               <li>タイトルと画像は確実に入れてください。</li>
               <li>概要は未入力だとNoneが入ります。</li>
             </ul>
@@ -85,14 +86,14 @@
               </div>
             </div>
             <label for="create_image">画像：</label><br>
-            <input id="create_image" type="file" name="thumbnail" value="<%= image %>"><br>
-            <div class="create_send_btn pr-5" style="text-align:right;">
+            <input id="create_image" class="create-image" type="file" name="thumbnail" value="<%= image %>"><br>
+            <div class="create_send_btn pr-3 pr-sm-5" style="text-align:right;">
               <input class="btn btn-primary" style="font-size:20px; width:100px;" type="submit" value="保存">
             </div>
           </form>
         </div>
         <div class="click-menu">
-          <div class="profile pt-sm-5 pb-sm-3" style="background-color:#4e4e4e;">
+          <div class="profile pt-3 pb-1 pt-sm-5 pb-sm-3" style="background-color:#4e4e4e;">
             <div class="profile-img" style="text-align:center;">
               <img src="../uploads/<%= users.attributes.filename %>" alt="<%= users.attributes.username %>" height="60" width="60" style="border-radius:30px;">
             </div>
