@@ -41,14 +41,14 @@ router.post('/signup',upload.single('profile'),function(req,res,next){
   req.check('password','passwordは必ず8文字以上に設定してください。').isLength({min:8});
   req.check('password','passwordに数値を含めてください。').matches(/\d/);
   try{
-    if(req.file.filename){
+    if(req.file.filename.endsWith('gif') || req.file.filename.endsWith('jpg') || req.file.filename.endsWith('png')){
       req.body.profile = 'succsess';
     }
   }catch(e){
     console.log('image error');
     console.log(e.message);
   }
-  req.check('profile','画像は必ず入力してください。').notEmpty();
+  req.check('profile','画像を必ず入力してください。(拡張子はgif,jpg,pngのどれかでお願いします)').notEmpty();
   req.getValidationResult().then((result)=>{
     if(!result.isEmpty()){
       var content = '<ul class="errors" style="color:red;">';

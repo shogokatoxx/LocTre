@@ -44,18 +44,19 @@ router.post('/',upload.single('thumbnail'),(req,res)=>{
   // console.log(req.file);
   req.check('title','タイトルは必ず入力してください。').notEmpty();
   try{
-    if(req.file.filename){
-      req.body.thumbnail = 'succsess';
+    if(req.file.filename.endsWith('gif') || req.file.filename.endsWith('jpg') || req.file.filename.endsWith('png')){
+      req.body.profile = 'succsess';
     }
   }catch(e){
     console.log('image not found');
     console.log(e.message);
   }
-  req.check('thumbnail','画像は必ず入れてください。').notEmpty();
+  req.check('thumbnail','画像は必ず入れてください。(拡張子はgif,jpg,pngのどれかでお願いします)').notEmpty();
   req.sanitize('description').escape();
   req.getValidationResult().then((result)=>{
     if(!result.isEmpty()){
       console.log(req.body.thumbnail);
+      let loginUserObj = req.session.login;
       var re = '<ul class="error" style="color:red;">';
       var result_arr = result.array();
       for(var n in result.array()){

@@ -245,6 +245,9 @@
   .responsive-input{
     width:310px;
   }
+  .profile-modal{
+    width:100%;
+  }
   /* いいねボタン専用クラス */
   .fass{
     color:red;
@@ -477,6 +480,10 @@
     font-size:25px;
     font-family:serif;
     font-weight:bold;
+  }
+  .profile-modal{
+    width:500px;
+    margin:0 auto;
   }
   /* いいねボタン専用クラス */
   .fass{

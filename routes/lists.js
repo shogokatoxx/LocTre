@@ -8,6 +8,21 @@ var User = models.User;
 var Product = models.Product;
 var Good = models.Good;
 
+var multer = require('multer');
+require('date-utils');
+
+var storage = multer.diskStorage({
+  destination:function(req,file,cb){
+    cb(null,'public/uploads')
+  },
+  filename:function(req,file,cb){
+    var dt = new Date();
+    var formatted = dt.toFormat("YYYYMMDDHH24MISS");
+    cb(null,formatted+file.originalname)
+  }
+});
+var upload = multer({storage:storage});
+
 // 全一覧ビュー(新規順)
 router.get('/lists/:page',function(req,res,next){
   if(req.session.login == null){
@@ -71,6 +86,23 @@ router.get('/mypage',function(req,res,next){
   })
   .catch((err) => {
     res.status(500).json({error:true,data:{message:err.message}});
+  });
+});
+
+router.post('/change_profile',upload.single('thumbnail'),function(req,res,next){
+  try{
+    if(req.file.filename.endsWith('gif') || req.file.filename.endsWith('jpg') || req.file.filename.endsWith('png')){
+      req.body.profile = 'succsess';
+    }
+  }catch(e){
+    console.log('image not found');
+    res.send('画像の拡張子はgif,jpg,pngのどれかで登録してください。');
+  }
+  let changeProfileImage = req.file.filename;
+  let loginUserObj = req.session.login;
+  new User().where('id','=',loginUserObj.id).save({'filename':changeProfileImage},{patch:true}).then((result)=>{
+    console.log('ユーザーのプロフィール画像の更新が完了しました。');
+    res.redirect('/lists/mypage');
   });
 });
 
