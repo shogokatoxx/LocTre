@@ -9,7 +9,7 @@
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
-  <body id="lists">
+  <body id="detail">
     <header>
       <div class="logo">
         <div class="menu-btn">
@@ -21,7 +21,7 @@
       </div>
       <nav>
         <ul class="global-nav">
-          <li><a data-toggle="modal" data-target="#modal"><i class="fa fa-search "></a></i></li>
+          <li><a data-toggle="modal" data-target="#modal"><i class="fa fa-search "></i></a></li>
         </ul>
       </nav>
     </header>
@@ -38,117 +38,74 @@
             </div>
           </div>
           <div class="base-image col-12 col-sm-4">
-            <img src="../../images/loctre_treasure.png" alt="local-treasure-picture">
+            <img src="../../../../images/loctre_treasure.png" alt="local-treasure-picture">
           </div>
         </div>
       </div>
       <div class="container mt-3 mt-sm-5">
         <div class="row">
-          <div class="col-12 col-sm-8">
+          <div class="col-12 col-sm-12" style="border:1px solid #666;">
             <div class="lists-title">
-              <h2>・いいねした制作物</h2>
+              <h2 class="pt-1 pb-1 pt-sm-3 pb-sm-2" style="font-family:arial;"><%= product.attributes.title %></h2>
             </div>
           </div>
         </div>
       </div>
-      <div class="container">
+      <div class="container mt-1 mt-sm-3">
         <div class="row">
-          <% for(var obj of content){ %>
-            <div class="col-12 col-sm-4 mt-2 mt-sm-3">
-              <div class="card" style="border:1px solid #666;border-radius:10px;">
-                <div class="card-header">
-                  <% if(obj.relations.user.id == users.id){ %>
-                    <a href="/detail/mypage_detail/<%= obj.id %>/<%= obj.relations.user.id %>/">
-                      <img src="../../uploads/<%= obj.attributes.images %>" alt="<%= obj.title %>" height="100%" width="100%">
-                    </a>
-                  <% }else if(obj.relations.user.id != users.id){ %>
-                    <a href="/detail/<%= obj.id %>/<%= obj.relations.user.id %>/">
-                      <img src="../../uploads/<%= obj.attributes.images %>" alt="<%= obj.title %>" height="100%" width="100%">
-                    </a>
-                  <% } %>
+          <div class="detail-img col-12 col-sm-6">
+            <img src="../../../../uploads/<%= product.attributes.images %>" alt="taskchecker" width="100%" height="350" style="border:1px solid #999;">
+          </div>
+          <div class="col-12 col-sm-6 mt-2" style="border:1px solid #999999;font-size:14px;font-family:arial; border-radius:10px;">
+            <h1 class="detail-description-title">- 概要
+              <a id="update-btn" class="user-tool-update-btn" data-toggle="modal" data-target="#update-modal">
+                <i class="fa fa-pencil"></i>
+              </a>
+            </h1>
+            <p class="mt-2 mt-2 mt-sm-4"><%- product.attributes.description %></p>
+            <% var d = new Date(product.attributes.created_at);
+            var month = ('0'+d.getMonth()).slice(-2);
+            var date = ('0'+d.getDate()).slice(-2);
+            var hours = ('0'+d.getHours()).slice(-2);
+            var minutes = ('0'+d.getMinutes()).slice(-2);
+            var dates = d.getFullYear() + '年' + month + '月' + date + '日 ' + hours + ':' + minutes; %>
+            <small>作成日：<%= dates %></small>
+            <div class="good-count">
+              <% for(var obj of goods){ %>
+                <% if(obj.attributes.product_id==product.id && obj.attributes.good_user == product.relations.user.id){ %>
+                  <button class="good-btn fass" data-productid="<%= product.id %>" data-gooduser="<%= product.relations.user.id %>">
+                    <div class="good-box">
+                      <i class="fa fa-heart" style="font-size:20px;"> <%= product.attributes.good_count %></i>
+                    </div>
+                  </button>
+                <% } %>
+              <% } %>
+              <button class="good-btn farr" data-productid="<%= product.id %>" data-gooduser="<%= product.relations.user.id %>">
+                <div class="good-box">
+                  <i class="fa fa-heart" style="font-size:20px;"> <%= product.attributes.good_count %></i>
                 </div>
-                <div class="card-body">
-                  <div class="card-title">
-                    <h4><%= obj.attributes.title %></h4>
-                  </div>
-                  <div class="card-content">
-                    <% var str = obj.attributes.description; %>
-                    <% if(str.length > 20){ %>
-                      <% str = str.slice(0,20); %>
-                      <% objId = obj.id; %>
-                      <% userId = obj.relations.user.id; %>
-                      <% if(obj.relations.user.id == users.id){ %>
-                        <% str+='<br><a href="/detail/mypage_detail/'; %>
-                      <% }else if(obj.relations.user.id != users.id){ %>
-                        <% str+='<br><a href="/detail/'; %>
-                      <% } %>
-                      <% str+=objId+'/'+userId; %>
-                      <% str+='">続きを読む</a>'; %>
-                    <% } %>
-                    <p style="margin:0;"><%- str %></p>
-                    <div class="row">
-                      <div class="col-4 col-sm-4">
-                        <img src="../../uploads/<%= obj.relations.user.attributes.filename %>" alt="<%= obj.relations.user.attributes.username %>" height="50" width="50" style="border-radius:25px;">
-                      </div>
-                      <div class="col-6 col-sm-6 pt-sm-3">
-                        <p><%= obj.relations.user.attributes.username %></p>
-                      </div>
-                    </div>
-                    <div class="created-at">
-                      <% var d = new Date(obj.attributes.created_at);
-                      var month = ('0'+d.getMonth()).slice(-2);
-                      var date = ('0'+d.getDate()).slice(-2);
-                      var hours = ('0'+d.getHours()).slice(-2);
-                      var minutes = ('0'+d.getMinutes()).slice(-2);
-                      var dates = d.getFullYear() + '年' + month + '月' + date + '日 ' + hours + ':' + minutes; %>
-                      <p>作成日：<%= dates %></p>
-                    </div>
-                    <div class="good-count">
-                      <% for(var item of goods){ %>
-                        <% if(item.attributes.product_id == obj.id && item.attributes.good_user == obj.relations.user.id){ %>
-                          <button class="good-btn fass" data-productid="<%= obj.id %>" data-gooduser="<%= obj.relations.user.id %>">
-                            <div class="good-box">
-                              <i class="fa fa-heart" style="font-size:20px;"> <%= obj.attributes.good_count %></i>
-                            </div>
-                          </button>
-                        <% } %>
-                      <% } %>
-                      <button class="good-btn farr" data-productid="<%= obj.id %>" data-gooduser="<%= obj.relations.user.id %>">
-                        <div class="good-box">
-                          <i class="fa fa-heart" style="font-size:20px;"> <%= obj.attributes.good_count %></i>
-                        </div>
-                      </button>
-                    </div>
-                  </div>
-                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3 mb-1 mt-sm-5 mb-sm-3">
+          <div class="col-12 col-sm-8" style="border:1px solid #999;">
+            <h2 class="detail-producter">- 製作者情報</h2>
+            <div class="row">
+              <div class="col-4 col-sm-2 mb-1 mb-sm-3">
+                <img src="../../../../uploads/<%= product.relations.user.attributes.filename %>" alt="mahiru"height="60" width="60" style="border-radius:30px;">
+              </div>
+              <div class="col-8 col-sm-10 mt-3 mt-sm-4">
+                <p><%= product.relations.user.attributes.username %></p>
               </div>
             </div>
-          <% } %>
+          </div>
         </div>
-        <nav aria-label="Page navigation">
-          <ul class="pagination justify-content-center mt-3 p-1 mt-sm-5 p-sm-3" style="border:1px solid #999;">
-            <li class="page-item"><a class="page-link" href="/lists/lists_good/1">&lt;&lt; First</a></li>
-            <% if(pagination.page == 1){ %>
-              <% if(pagination.page+1 <= pagination.pageCount){ %>
-                <li class="page-item"><a class="page-link" href="/lists/lists_good/<%= pagination.page+1 %>"><%= pagination.page+1 %></a></li>
-              <% } %>
-              <% if(pagination.page+2 <= pagination.pageCount){ %>
-                <li class="page-item"><a class="page-link" href="/lists/lists_good/<%= pagination.page+2 %>"><%= pagination.page+2 %></a></li>
-              <% } %>
-            <% }else{ %>
-              <li class="page-item"><a class="page-link" href="/lists/lists_good/<%= pagination.page-1 %>"><%= pagination.page-1 %></a></li>
-              <% if(pagination.page-2 > 0){ %>
-                  <li class="page-item"><a class="page-link" href="/lists/lists_good/<%= pagination.page-2 %>"><%= pagination.page-2 %></a></li>
-              <% } %>
-            <% } %>
-            <li class="page-item"><a class="page-link" href="/lists/lists_good/<%= pagination.pageCount %>">Next &gt;&gt;</a></li>
-          </ul>
-        </nav>
         <div class="click-menu">
           <div class="profile pt-3 pb-1 pt-sm-5 pb-sm-3" style="background-color:#4e4e4e;">
             <div class="profile-img" style="text-align:center;">
               <a data-toggle="modal" data-target="#profile-modal">
-                <img src="../../uploads/<%= users.attributes.filename %>" alt="<%= users.attributes.username %>" height="60" width="60" style="border-radius:30px;">
+                <img src="../../../../uploads/<%= users.attributes.filename %>" alt="admin" height="60" width="60" style="border-radius:30px;">
               </a>
             </div>
             <div class="profile-text" style="text-align:center;color:#fff;">
@@ -220,6 +177,64 @@
                 </div>
                 <div class="create_send_btn pr-3 pr-sm-5" style="text-align:right;">
                   <input class="btn btn-primary" style="font-size:20px; width:100px;" type="submit" value="保存">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade update-modal" id="update-modal" tabindex="-1" role="dialog" aria-labelledby="labell" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4><div class="modal-title" id="myModalLabel">「<%= product.attributes.title %>」の編集</div></h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-sm-12">
+                  <ul class="mini-ul">
+                    <li>タイトルと画像は確実に入れてください。</li>
+                    <li>概要は未入力だとNoneが入ります。</li>
+                    <li>拡張子はgif,jpg,pngのどれかでお願いします。</li>
+                  </ul>
+                  <% if(content){ %>
+                    <%- content %>
+                  <% } %>
+                </div>
+              </div>
+              <form class="" action="/detail/mypage_detail/<%= product.id %>" method="post" enctype="multipart/form-data">
+                <label for="create_title">タイトル：</label><br>
+                <input id="create_title" class="form-control" type="text" name="title" value="<%= product.attributes.title %>" placeholder="タイトル">
+                <label for="create_description">概要：</label><br>
+                <textarea id="create_description" class="form-control" name="description" rows="8" cols="80" placeholder="概要"><%= product.attributes.description %></textarea>
+                <div class="form-group">
+                  <div class="radio-inline">
+                    <% if(product.attributes.publish == 'Public'){ %>
+                      <input type="radio" name="publish" value="Public" id="public" checked="checked">
+                    <% }else{ %>
+                      <input type="radio" name="publish" value="Public" id="public">
+                    <% } %>
+                    <label for="public">公開</label>
+                  </div>
+                  <div class="radio-inline">
+                    <% if(product.attributes.publish == 'Private'){ %>
+                      <input type="radio" name="publish" value="Private" id="private" checked="checked">
+                    <% }else{ %>
+                      <input type="radio" name="publish" value="Private" id="private">
+                    <% } %>
+                    <label for="private">非公開</label>
+                  </div>
+                </div>
+                <label for="create_image">画像</label><br>
+                <input id="file2" class="create-image" type="file" name="thumbnail" value=""><br>
+                <div class="images">
+                  <img id="result2" src="../../../../uploads/<%= product.attributes.images %>" height="100" width="150">
+                </div>
+                <div class="create_send_btn pr-3 pr-sm-5" style="text-align:right;">
+                  <input class="btn btn-primary" style="font-size:20px; width:100px;" type="submit" value="更新">
                 </div>
               </form>
             </div>

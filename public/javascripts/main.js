@@ -1,3 +1,4 @@
+// バーガメニューのスクリプト
 document.addEventListener('DOMContentLoaded',function(){
   let clickMenu = document.querySelector('.click-menu');
   let menuBtn = document.querySelector('.menu-btn');
@@ -25,6 +26,7 @@ document.addEventListener('DOMContentLoaded',function(){
   });
 },false);
 
+// 画像選択>>展開のスクリプト
 document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('file').addEventListener('change',function(e){
     let input = document.getElementById('file').files[0];
@@ -39,6 +41,21 @@ document.addEventListener('DOMContentLoaded',function(){
   },true);
 });
 
+document.addEventListener('DOMContentLoaded',function(){
+  document.getElementById('file2').addEventListener('change',function(e){
+    let input = document.getElementById('file2').files[0];
+    let reader = new FileReader();
+    reader.addEventListener('load',function(e){
+      let result = document.getElementById('result2');
+      result.setAttribute('height',100);
+      result.setAttribute('width',150);
+      result.src = reader.result;
+    },true);
+    reader.readAsDataURL(input);
+  },true);
+});
+
+// いいねボタンのAjaxスクリプト
 $(function(){
   let $good = $('.good-btn');
   $good.on('click',function(e){
@@ -68,6 +85,17 @@ $(function(){
   });
 });
 
+// 削除モーダルでの受け渡しスクリプト
+$(function(){
+  $('#delete-modal').on('show.bs.modal',function(event){
+    let a = $(event.relatedTarget);
+    let productId = a.data('productid');
+    let modal = $(this);
+    modal.find('.delete-btn').attr('href','/lists/delete/'+productId);
+  });
+});
+
+// 続きを読む生成スクリプト ※サーバー側で対応するように変更
 // $(function(){
 //   $('.card-content p').readmore({
 //     speed: 100,

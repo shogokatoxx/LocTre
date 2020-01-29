@@ -1,16 +1,25 @@
 var express = require('express');
 var router = express.Router();
 
+// 削除更新時に前回のファイルを削除するためのファイルモジュール呼び出し。
+let fs = require('fs');
+
+// モデル呼び出し
 var models = require('../config/models');
 var dbConfig = require('../config/db_con');
 
+// モデル設置
 var User = models.User;
 var Product = models.Product;
 var Good = models.Good;
 
+// multerの設定
 var multer = require('multer');
+
+// ユニークな画像名にするため現在時刻との組み合わせを使う
 require('date-utils');
 
+// multer保存に関する設定
 var storage = multer.diskStorage({
   destination:function(req,file,cb){
     cb(null,'public/uploads')
@@ -21,6 +30,8 @@ var storage = multer.diskStorage({
     cb(null,formatted+file.originalname)
   }
 });
+
+// multer設定適用
 var upload = multer({storage:storage});
 
 // 全一覧ビュー(新規順)
@@ -48,8 +59,7 @@ router.get('/lists/:page',function(req,res,next){
       content:collection.toArray(),
       pagination:collection.pagination,
       users:users,
-      goods:goods,
-      // pagination:collection.pagination
+      goods:goods
     };
     console.log(users);
     console.log(collection.pagination);
@@ -89,6 +99,7 @@ router.get('/mypage',function(req,res,next){
   });
 });
 
+// プロフ変更機能
 router.post('/change_profile',upload.single('thumbnail'),function(req,res,next){
   try{
     if(req.file.filename.endsWith('gif') || req.file.filename.endsWith('jpg') || req.file.filename.endsWith('png')){
@@ -100,9 +111,79 @@ router.post('/change_profile',upload.single('thumbnail'),function(req,res,next){
   }
   let changeProfileImage = req.file.filename;
   let loginUserObj = req.session.login;
-  new User().where('id','=',loginUserObj.id).save({'filename':changeProfileImage},{patch:true}).then((result)=>{
-    console.log('ユーザーのプロフィール画像の更新が完了しました。');
-    res.redirect('/lists/mypage');
+  new User().where('id','=',loginUserObj.id).fetch().then((result)=>{
+    try{
+      fs.statSync('./public/uploads/'+result.attributes.filename);
+      fs.unlink('./public/uploads/'+result.attributes.filename,function(err){
+        if(err){
+          console.log(err.message);
+          res.send('fsのエラーが出てます。');
+        }else{
+          console.log('画像の削除をしました。');
+        }
+      });
+    }catch(error){
+      console.log('削除対象のファイルがありませんでした。削除せずプロフ更新へ進みます。');
+    }finally{
+      new User().where('id','=',loginUserObj.id).save({'filename':changeProfileImage},{patch:true}).then((result)=>{
+        console.log('ユーザーのプロフィール画像の更新が完了しました。');
+        res.redirect('/lists/mypage');
+      });
+    }
+  });
+});
+
+// 公開/非公開の切り替え機能
+router.get('/change_publish/:flg/:productid',function(req,res,next){
+  let flg = req.params.flg;
+  let productId = req.params.productid;
+  if(flg == 1){
+    new Product().where('id','=',productId).save({'publish':'Private'},{patch:true}).then((result)=>{
+      res.redirect('/lists/mypage');
+    });
+  }else if(flg == 2){
+    new Product().where('id','=',productId).save({'publish':'Public'},{patch:true}).then((result)=>{
+      res.redirect('/lists/mypage');
+    });
+  }
+});
+
+// 削除機能
+router.get('/delete/:productid',function(req,res,next){
+  let productId = req.params.productid;
+  let loginUserObj = req.session.login;
+  console.log('productID：'+productId);//確認
+  console.log('loginUserObj.id：'+loginUserObj.id);//確認
+  new Product().where({'id':productId,'user_id':loginUserObj.id}).fetch().then((result)=>{
+    try{
+      fs.statSync('./public/uploads/'+result.attributes.images);
+      fs.unlink('./public/uploads/'+result.attributes.images,function(err){
+        if(err){
+          console.log(err.message);
+          res.send('fsのエラーが出てます。');
+        }else{
+          console.log('画像の削除をしました。');
+        }
+      });
+    }catch(error){
+      console.log('削除対象画像が見つかりませんでした。このままオブジェクトの削除へ進みます。');
+    }finally{
+      result.destroy();
+      console.log('制作物と画像の削除が完了しました。次に関連するGoodオブジェクトの削除をしていきます。');
+      new Good().where('product_id','=',productId).fetchAll().then((result)=>{
+        result.destroy();
+        res.redirect('/lists/mypage');
+      })
+      .catch((err)=>{
+        console.log('Goodオブジェクト削除時にオブジェクト不登録or何かしらのエラーを受け取りました。');
+        console.log('productId：'+productId);
+        res.redirect('/lists/mypage');
+      });
+    }
+  })
+  .catch((err)=>{
+    console.log(err.message);
+    res.send('削除の時に何かしらのエラーが起きました。再度やり直してください。');
   });
 });
 
@@ -210,8 +291,7 @@ router.post('/serch',function(req,res,next){
 
 // 検索時に見つからなかった時のエラー関数
 router.get('/serch_error',function(req,res,next){
-  res.send('タイトルが見つかりませんでした。');
+  res.send('Title not found error:タイトルが見つかりませんでした。戻って確認してください。');
 });
-
 
 module.exports = router;

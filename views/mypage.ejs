@@ -62,8 +62,8 @@
             <div class="col-12 col-sm-4 mt-2 mt-sm-3">
               <div class="card" style="border:1px solid #666;border-radius:10px;">
                 <div class="card-header">
-                  <a href="/detail/<%= obj.id %>/<%= obj.relations.user.id %>/">
-                    <img src="../uploads/<%= obj.attributes.images %>" alt="<%= obj.title %>" height="100%" width="100%">
+                  <a href="/detail/mypage_detail/<%= obj.id %>/<%= obj.relations.user.id %>/">
+                    <img src="../uploads/<%= obj.attributes.images %>" alt="<%= obj.title %>" height="200" width="310">
                   </a>
                 </div>
                 <div class="card-body">
@@ -98,7 +98,22 @@
                       var dates = d.getFullYear() + '年' + month + '月' + date + '日 ' + hours + ':' + minutes; %>
                       <p>作成日：<%= dates %></p>
                     </div>
-                    <div class="good-count">
+                    <div class="user-tool" style="width:100%;">
+                      <!-- <div class="" style="display:inline-block;width:49%;font-size:28px;border:1px solid #ddd;text-align:center;"> -->
+                        <a id="publish-btn" class="user-tool-btns" href="/lists/change_publish/1/<%= obj.attributes.id %>">
+                          <i class="fa fa-toggle-on"></i>
+                        </a>
+                      <!-- </div> -->
+                      <!-- <div class="" style="display:inline-block;width:30%;font-size:28px;border:1px solid #ddd;text-align:center;">
+                        <a class="update-btn" href="/lists/update"><i class="fa fa-pencil"></i></a>
+                      </div> -->
+                      <!-- <div class="" style="display:inline-block;width:49%;font-size:28px;border:1px solid #ddd;text-align:center;"> -->
+                        <a id="delete-btn" class="user-tool-btns" data-toggle="modal" data-target="#delete-modal" data-productid="<%= obj.id %>">
+                          <i class="fa fa-trash"></i>
+                        </a>
+                      <!-- </div> -->
+                    </div>
+                    <div class="good-count mt-sm-1">
                       <% for(var item of goods){ %>
                         <% if(item.attributes.product_id == obj.id && item.attributes.good_user == obj.relations.user.id){ %>
                           <button class="good-btn fass" data-productid="<%= obj.id %>" data-gooduser="<%= obj.relations.user.id %>">
@@ -129,8 +144,8 @@
               <div class="col-12 col-sm-4 mt-2 mt-sm-3">
                 <div class="card" style="border:1px solid #666;border-radius:10px;">
                   <div class="card-header">
-                    <a href="/detail/<%= obj.id %>/<%= obj.relations.user.id %>/">
-                      <img src="../uploads/<%= obj.attributes.images %>" alt="<%= obj.title %>" height="100%" width="100%">
+                    <a href="/detail/mypage_detail/<%= obj.id %>/<%= obj.relations.user.id %>/">
+                      <img src="../uploads/<%= obj.attributes.images %>" alt="<%= obj.title %>" height="200" width="310">
                     </a>
                   </div>
                   <div class="card-body">
@@ -138,7 +153,16 @@
                       <h4><%= obj.attributes.title %></h4>
                     </div>
                     <div class="card-content">
-                      <p style="margin:0;"><%= obj.attributes.description %></p>
+                      <% var str = obj.attributes.description; %>
+                      <% if(str.length > 20){ %>
+                        <% str = str.slice(0,20); %>
+                        <% objId = obj.id; %>
+                        <% userId = obj.relations.user.id; %>
+                        <% str+='<br><a href="/detail/'; %>
+                        <% str+=objId+'/'+userId; %>
+                        <% str+='">続きを読む</a>'; %>
+                      <% } %>
+                      <p style="margin:0;"><%- str %></p>
                       <div class="row">
                         <div class="col-4 col-sm-4">
                           <img src="../uploads/<%= obj.relations.user.attributes.filename %>" alt="<%= obj.relations.user.attributes.username %>" height="50" width="50" style="border-radius:25px;">
@@ -156,7 +180,15 @@
                         var dates = d.getFullYear() + '年' + month + '月' + date + '日 ' + hours + ':' + minutes; %>
                         <p>作成日：<%= dates %></p>
                       </div>
-                      <div class="good-count">
+                      <div class="user-tool">
+                        <a id="publish-btn" class="user-tool-btns" href="/lists/change_publish/2/<%= obj.attributes.id %>">
+                          <i class="fa fa-toggle-off"></i>
+                        </a>
+                        <a id="delete-btn" class="user-tool-btns" data-toggle="modal" data-target="#delete-modal" data-productid="<%= obj.id %>">
+                          <i class="fa fa-trash"></i>
+                        </a>
+                      </div>
+                      <div class="good-count mt-sm-1">
                         <% for(var item of goods){ %>
                           <% if(item.attributes.product_id == obj.id && item.attributes.good_user == obj.relations.user.id){ %>
                             <button class="good-btn fass" data-productid="<%= obj.id %>" data-gooduser="<%= obj.relations.user.id %>">
@@ -234,7 +266,26 @@
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               <button type="submit" class="btn btn-danger">検索</button>
             </div>
-            </form>
+          </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade delete-modal" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4><div class="modal-title">データ削除</div></h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>本当に削除しますか？(削除したデータは戻ってきません)</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <a class="btn btn-danger delete-btn" href="/lists/delete/1">削除</a>
+            </div>
           </div>
         </div>
       </div>

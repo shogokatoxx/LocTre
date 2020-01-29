@@ -509,4 +509,32 @@
     padding:3px;
     border-left:7px solid #9ac4a4;
   }
+  .user-tool-btns{
+    display:inline-block;
+    width:49%;
+    font-size:28px;
+    border:1px solid #ddd;text-align:center;
+    color:#4ab0df;
+  }
+  .user-tool-btns:hover{
+    cursor:pointer;
+    opacity:0.8;
+  }
+  .user-tool-btns i{
+    color:#4ab0df;
+  }
+  .user-tool-update-btn{
+    display:inline-block;
+    width:30px;
+    height:30px;
+    text-align:center;
+    color:blue;
+  }
+  .user-tool-update-btn:hover{
+    cursor:pointer;
+    opacity:0.8;
+  }
+  .user-tool-update-btn i{
+    color:#4ab0df;
+  }
 }

@@ -58,9 +58,15 @@
             <div class="col-12 col-sm-4 mt-3 mt-sm-3">
               <div class="card" style="border:1px solid #666;border-radius:10px;">
                 <div class="card-header">
-                  <a href="/detail/<%= obj.id %>/<%= obj.relations.user.id %>/">
-                    <img src="../../uploads/<%= obj.attributes.images %>" alt="<%= obj.title %>" height="200" width="310">
-                  </a>
+                  <% if(obj.relations.user.id == users.id){ %>
+                    <a href="/detail/mypage_detail/<%= obj.id %>/<%= obj.relations.user.id %>/">
+                      <img src="../../uploads/<%= obj.attributes.images %>" alt="<%= obj.title %>" height="200" width="310">
+                    </a>
+                  <% }else if(obj.relations.user.id != users.id){ %>
+                    <a href="/detail/<%= obj.id %>/<%= obj.relations.user.id %>/">
+                      <img src="../../uploads/<%= obj.attributes.images %>" alt="<%= obj.title %>" height="200" width="310">
+                    </a>
+                  <% } %>
                 </div>
                 <div class="card-body">
                   <div class="card-title">
@@ -72,7 +78,11 @@
                       <% str = str.slice(0,20); %>
                       <% objId = obj.id; %>
                       <% userId = obj.relations.user.id; %>
-                      <% str+='<br><a href="/detail/'; %>
+                      <% if(obj.relations.user.id == users.id){ %>
+                        <% str+='<br><a href="/detail/mypage_detail/'; %>
+                      <% }else if(obj.relations.user.id != users.id){ %>
+                        <% str+='<br><a href="/detail/'; %>
+                      <% } %>
                       <% str+=objId+'/'+userId; %>
                       <% str+='">続きを読む</a>'; %>
                     <% } %>
