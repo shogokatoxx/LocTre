@@ -22,6 +22,7 @@ var storage = multer.diskStorage({
 
 var upload = multer({storage:storage});
 
+let cloudinary = require('../config/cloudinary_con').cloudinary;
 
 router.get('/',function(req,res,next){
   let loginUserObj = req.session.login;
@@ -45,7 +46,7 @@ router.post('/',upload.single('thumbnail'),(req,res)=>{
   req.check('title','タイトルは必ず入力してください。').notEmpty();
   try{
     if(req.file.filename.endsWith('gif') || req.file.filename.endsWith('jpg') || req.file.filename.endsWith('png')){
-      req.body.profile = 'succsess';
+      req.body.thumbnail = 'succsess';
     }
   }catch(e){
     console.log('image not found');
@@ -85,8 +86,12 @@ router.post('/',upload.single('thumbnail'),(req,res)=>{
       }
       description = description.replace(/\r?\n/g, '<br>');
       console.log(description);
-      new Product({'user_id':loginUserObj.id,'title':title,'description':description,'images':create_image,'publish':publish,'created_at':formatted}).save().then((collection)=>{
-        res.redirect('/lists')
+      console.log(req.file.path);
+      cloudinary.uploader.upload(req.file.path,function(error,result){
+        console.log(result);
+        new Product({'user_id':loginUserObj.id,'title':title,'description':description,'images':req.file.filename,'product_cloud':result.public_id,'publish':publish,'created_at':formatted}).save().then((collection)=>{
+          res.redirect('/lists/lists/1');
+        });
       });
     }
   });

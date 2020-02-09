@@ -24,6 +24,9 @@ var storage = multer.diskStorage({
 
 var upload = multer({storage:storage});
 
+// Cloudinaryの設定ファイルの読み込み
+let cloudinary = require('../config/cloudinary_con').cloudinary;
+
 /* GET users listing. */
 router.get('/signup', function(req, res, next) {
   var data = {
@@ -80,11 +83,13 @@ router.post('/signup',upload.single('profile'),function(req,res,next){
         var password = req.body.password;
         var hash = createHash(password);
         var profile = req.file.filename;
-        new User({'username':username,'password':hash,'filename':profile}).save().then((result)=>{
-          res.redirect('/users');
-        })
-        .catch((err) => {
-          res.status(500).json({error:true,data:{message:err.message}});
+        cloudinary.uploader.upload(req.file.path,function(error,result){
+          new User({'username':username,'password':hash,'filename':profile,'user_cloud':result.public_id}).save().then((result)=>{
+            res.redirect('/users');
+          })
+          .catch((err) => {
+            res.status(500).json({error:true,data:{message:err.message}});
+          });
         });
       })
     }

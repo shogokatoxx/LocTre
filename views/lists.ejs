@@ -60,11 +60,11 @@
                 <div class="card-header">
                   <% if(obj.relations.user.id == users.id){ %>
                     <a href="/detail/mypage_detail/<%= obj.id %>/<%= obj.relations.user.id %>/">
-                      <img src="../../uploads/<%= obj.attributes.images %>" alt="<%= obj.title %>" height="200" width="310">
+                      <img src="http://res.cloudinary.com/do40sxkcd/image/upload/<%= obj.attributes.product_cloud %>" alt="<%= obj.title %>" height="200" width="310">
                     </a>
                   <% }else if(obj.relations.user.id != users.id){ %>
                     <a href="/detail/<%= obj.id %>/<%= obj.relations.user.id %>/">
-                      <img src="../../uploads/<%= obj.attributes.images %>" alt="<%= obj.title %>" height="200" width="310">
+                      <img src="http://res.cloudinary.com/do40sxkcd/image/upload/<%= obj.attributes.product_cloud %>" alt="<%= obj.title %>" height="200" width="310">
                     </a>
                   <% } %>
                 </div>
@@ -89,7 +89,7 @@
                     <p style="margin:0;"><%- str %></p>
                     <div class="row">
                       <div class="col-4 col-sm-4">
-                        <img src="../../uploads/<%= obj.relations.user.attributes.filename %>" alt="<%= obj.relations.user.attributes.username %>" height="50" width="50" style="border-radius:25px;">
+                        <img src="http://res.cloudinary.com/do40sxkcd/image/upload/<%= obj.relations.user.attributes.user_cloud %>" alt="<%= obj.relations.user.attributes.username %>" height="50" width="50" style="border-radius:25px;">
                       </div>
                       <div class="col-6 col-sm-6 pt-sm-3">
                         <p><%= obj.relations.user.attributes.username %></p>
@@ -97,7 +97,7 @@
                     </div>
                     <div class="created-at">
                       <% var d = new Date(obj.attributes.created_at);
-                      var month = ('0'+d.getMonth()).slice(-2);
+                      var month = ('0'+(d.getMonth()+1)).slice(-2);
                       var date = ('0'+d.getDate()).slice(-2);
                       var hours = ('0'+d.getHours()).slice(-2);
                       var minutes = ('0'+d.getMinutes()).slice(-2);
@@ -149,7 +149,7 @@
           <div class="profile pt-3 pb-1 pt-sm-5 pb-sm-3" style="background-color:#4e4e4e;">
             <div class="profile-img" style="text-align:center;">
               <a data-toggle="modal" data-target="#profile-modal">
-                <img src="../../uploads/<%= users.attributes.filename %>" alt="<%= users.attributes.username %>" height="60" width="60" style="border-radius:30px;">
+                <img src="http://res.cloudinary.com/do40sxkcd/image/upload/<%= users.attributes.user_cloud %>" alt="<%= users.attributes.username %>" height="60" width="60" style="border-radius:30px;">
               </a>
             </div>
             <div class="profile-text" style="text-align:center;color:#fff;">

@@ -34,6 +34,8 @@ var storage = multer.diskStorage({
 // multer設定適用
 var upload = multer({storage:storage});
 
+let cloudinary = require('../config/cloudinary_con').cloudinary;
+
 // 全一覧ビュー(新規順)
 router.get('/lists/:page',function(req,res,next){
   if(req.session.login == null){
@@ -113,6 +115,13 @@ router.post('/change_profile',upload.single('thumbnail'),function(req,res,next){
   let loginUserObj = req.session.login;
   new User().where('id','=',loginUserObj.id).fetch().then((result)=>{
     try{
+      cloudinary.uploader.destroy(result.attributes.user_cloud,function(error,result){
+        if(error){
+          console.log(error.message);
+        }else{
+          console.log('プロフ変更に伴い、前回登録の画像を削除しました。');
+        }
+      });
       fs.statSync('./public/uploads/'+result.attributes.filename);
       fs.unlink('./public/uploads/'+result.attributes.filename,function(err){
         if(err){
@@ -125,9 +134,11 @@ router.post('/change_profile',upload.single('thumbnail'),function(req,res,next){
     }catch(error){
       console.log('削除対象のファイルがありませんでした。削除せずプロフ更新へ進みます。');
     }finally{
-      new User().where('id','=',loginUserObj.id).save({'filename':changeProfileImage},{patch:true}).then((result)=>{
-        console.log('ユーザーのプロフィール画像の更新が完了しました。');
-        res.redirect('/lists/mypage');
+      cloudinary.uploader.upload(req.file.path,function(error,result){
+        new User().where('id','=',loginUserObj.id).save({'user_cloud':result.public_id,'filename':changeProfileImage},{patch:true}).then((result)=>{
+          console.log('ユーザーのプロフィール画像の更新が完了しました。');
+          res.redirect('/lists/mypage');
+        });
       });
     }
   });
@@ -156,6 +167,13 @@ router.get('/delete/:productid',function(req,res,next){
   console.log('loginUserObj.id：'+loginUserObj.id);//確認
   new Product().where({'id':productId,'user_id':loginUserObj.id}).fetch().then((result)=>{
     try{
+      cloudinary.uploader.destroy(result.attributes.product_cloud,function(error,result){
+        if(error){
+          console.log(error.message);
+        }else{
+          console.log('cloudinary内の対象画像の削除が完了しました。');
+        }
+      })
       fs.statSync('./public/uploads/'+result.attributes.images);
       fs.unlink('./public/uploads/'+result.attributes.images,function(err){
         if(err){

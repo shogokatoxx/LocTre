@@ -29,6 +29,9 @@ var storage = multer.diskStorage({
 // multer設定適用
 var upload = multer({storage:storage});
 
+// cloudinaryの読み込み
+let cloudinary = require('../config/cloudinary_con').cloudinary;
+
 // 他社の詳細
 router.get('/:productId/:userId/',function(req,res,next){
   if(req.session.login == null){
@@ -154,6 +157,13 @@ router.post('/mypage_detail/:productId',upload.single('thumbnail'),function(req,
       if(req.body.profile == 'succsess'){
         new Product().where('id','=',productId).fetch().then((result)=>{
           try{
+            cloudinary.uploader.destroy(result.attributes.product_cloud,function(error,result){
+              if(error){
+                console.log(error.message);
+              }else{
+                console.log('cloudianryに存在する前回登録の画像は削除しました。');
+              }
+            });
             fs.statSync('./public/uploads/'+result.attributes.images);
             fs.unlink('./public/uploads/'+result.attributes.images,function(err){
               if(err){
@@ -166,8 +176,10 @@ router.post('/mypage_detail/:productId',upload.single('thumbnail'),function(req,
           }catch(error){
             console.log('削除対象画像が見つかりませんでした。このままオブジェクトの更新へ進みます。');
           }finally{
-            new Product().where('id','=',productId).save({'title':title,'description':description,'images':create_image,'publish':publish,'updated_at':formatted},{patch:true}).then((collection)=>{
-              res.redirect('/detail/mypage_detail/'+productId+'/'+loginUserObj.id);
+            cloudinary.uploader.upload(req.file.path,function(error,result){
+              new Product().where('id','=',productId).save({'title':title,'description':description,'product_cloud':result.public_id,'images':create_image,'publish':publish,'updated_at':formatted},{patch:true}).then((collection)=>{
+                res.redirect('/detail/mypage_detail/'+productId+'/'+loginUserObj.id);
+              });
             });
           }
         });
