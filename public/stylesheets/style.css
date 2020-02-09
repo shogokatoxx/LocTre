@@ -4,11 +4,34 @@
   h1,h2,h3,h4,h5,h6{
     margin:0;
   }
+  h2{
+    font-size:1.3rem;
+  }
   body{
     padding:0;
     margin:0;
-    font-size:20px;
+    font-size:14px;
   }
+
+  /* ログイン(フォーム) */
+  .mini-ul{
+    font-size:.8rem;
+    margin-bottom:.3rem;
+  }
+  .form-control{
+    font-size:.8rem;
+    height:calc(1.75rem + 2px);
+  }
+  .login-btn{
+    font-size:1rem;
+    width:100px;
+  }
+  .login-form{
+    width:100%;
+    margin:0 auto;
+  }
+
+  /* 全一覧 */
   .global-nav li{
     float:left;
     margin:0 20px;
@@ -17,12 +40,12 @@
   }
   #main .base-title h1{
     font-family:'Bitter',serif;
-    font-size:40px;
-    margin-top:50px;
+    font-size:1.5rem;
+    margin-top:10px;
   }
   #main .base-title p{
-    padding-top:30px;
-    font-size:18px;
+    padding-top:15px;
+    font-size:14px;
     font-family:arial;
   }
   #main {
@@ -30,8 +53,8 @@
     margin-top:40px;
   }
   #main .base-image img{
-    height:150px;
-    width:150px;
+    height:80px;
+    width:80px;
     display:block;
     margin:0 auto;
   }
@@ -46,7 +69,7 @@
     background:#fff;
   }
   #main .click-menu.open{
-    top:70px;
+    top:50px;
     transition:0.5s ease-out;
     background:#fff;
   }
@@ -55,7 +78,7 @@
     width:100%;
   }
   .menu-content .menus{
-    font-size:28px;
+    font-size:24px;
     line-height:2;
   }
   .menu-content .menus .menu-link{
@@ -73,11 +96,9 @@
     transition:1s ease-out;
   }
   .h2-mini-size{
-    font-size:1.5rem;
+    font-size:1.3rem;
   }
-  .mini-ul{
-    font-size:16px;
-  }
+
   /* top */
   #top header{
     width:100%;
@@ -165,7 +186,7 @@
     left:0;
     z-index:2;
     width:100%;
-    height:70px;
+    height:50px;
     margin:0 auto;
     background-color:yellow;
   }
@@ -176,12 +197,12 @@
   }
   #lists .logo .menu-btn,#detail .logo .menu-btn{
     float:left;
-    height:70px;
-    width:5rem;
+    height:50px;
+    width:4.5rem;
   }
   #lists .logo .menu-link,#detail .logo .menu-link{
     color:#999;
-    font-size:45px;
+    font-size:35px;
     margin-left:20px;
   }
   #lists .logo .menu-btn:hover,#detail .logo .menu-btn:hover{
@@ -190,7 +211,7 @@
     background-color:#ffd700;
   }
   #lists .logo h1,#detail .logo h1{
-    margin-top:10px;
+    /* margin-top:10px; */
     color:#333;
     font-family:'Bitter',serif;
     float:right;
@@ -198,12 +219,12 @@
     /* margin-left:150px; */
   }
   #lists .global-nav,#detail .global-nav{
-    height:70px;
+    height:50px;
   }
 
   #lists .global-nav li,#detail .global-nav li{
     float:left;
-    margin-top:12px;
+    /* margin-top:12px; */
     margin-left:50px;
     list-style:none;
     font-size:35px;
@@ -214,12 +235,18 @@
     cursor:pointer;
   }
   .card-header a img{
-    height:200px;
+    height:180px;
     width:300px;
     border:1px solid #ddd;
   }
+  .card-body .card-title h4{
+    font-size:1.2rem;
+  }
+  .card-body{
+    padding-top:1rem;
+  }
   .create-image{
-    width:343px;
+    width:100%;
     border:1px solid #ddd;
   }
   .signup-image{
@@ -269,11 +296,82 @@
   .good-btn:focus{
     outline:none;
   }
-
+  .good-btn .good-box i{
+    font-size:1.1rem;
+  }
   .icon:before{
     content:'';
     padding:3px;
     border-left:7px solid #9ac4a4;
+  }
+  .profile-change-btn{
+    font-size:1rem;
+    width:100px;
+  }
+  .modal-title{
+    font-size:1.2rem;
+  }
+  .lists-img{
+    height:40px;
+    width:40px;
+    border-radius:50%;
+  }
+  .detail-title{
+    font-size:1.3rem;
+  }
+  .details-img{
+    height:50px;
+    width:50px;
+    border-radius:50%;
+  }
+  .user-tool-update-btn{
+    display:inline-block;
+    width:30px;
+    height:30px;
+    text-align:center;
+    color:blue;
+  }
+  .user-tool-update-btn:hover{
+    cursor:pointer;
+    opacity:0.8;
+  }
+  .user-tool-update-btn i{
+    color:#4ab0df;
+  }
+  .user-tool-btns{
+    display:inline-block;
+    width:49%;
+    font-size:1.3rem;
+    border:1px solid #ddd;text-align:center;
+    color:#4ab0df;
+  }
+  .user-tool-btns:hover{
+    cursor:pointer;
+    opacity:0.8;
+  }
+  .user-tool-btns i{
+    color:#4ab0df;
+  }
+  .update-modal-title{
+    font-size:1.3rem;
+  }
+  .update-btn{
+    font-size:1.3rem;
+    width:25%;
+  }
+  .create-btn{
+    font-size:1rem;
+    width:25%;
+  }
+  .no-publish-title{
+    padding-left:0;
+  }
+  .publish-btn-description{
+    color:#aaa;
+    font-size:.8rem;
+  }
+  .create-form{
+    padding:5px;
   }
 }
 
@@ -536,5 +634,39 @@
   }
   .user-tool-update-btn i{
     color:#4ab0df;
+  }
+  .login-btn{
+    font-size:20px;
+    width:100px;
+  }
+  .login-form{
+    width:500px;
+    margin:0 auto;
+  }
+  .profile-change-btn{
+    font-size:20px;
+    width:100px;
+  }
+  .lists-img{
+    height:50px;
+    width:50px;
+    border-radius:50%;
+  }
+  .details-img{
+    height:60px;
+    width:60px;
+    border-radius:30px;
+  }
+  .publish-btn-description{
+    color:#aaa;
+    font-size:.8rem;
+  }
+  .update-btn{
+    width:30%;
+    font-size:1.3rem;
+  }
+  .create-btn{
+    width:10%;
+    font-size:1.3rem;
   }
 }

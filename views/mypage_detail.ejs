@@ -44,7 +44,7 @@
       </div>
       <div class="container mt-3 mt-sm-5">
         <div class="row">
-          <div class="col-12 col-sm-12" style="border:1px solid #666;">
+          <div class="col-12 col-sm-12" style="border:1px solid #666; border-radius:5px;">
             <div class="lists-title">
               <h2 class="pt-1 pb-1 pt-sm-3 pb-sm-2" style="font-family:arial;"><%= product.attributes.title %></h2>
             </div>
@@ -57,7 +57,7 @@
             <img src="http://res.cloudinary.com/do40sxkcd/image/upload/<%= product.attributes.product_cloud %>" alt="taskchecker" width="100%" height="350" style="border:1px solid #999;">
           </div>
           <div class="col-12 col-sm-6 mt-2" style="border:1px solid #999999;font-size:14px;font-family:arial; border-radius:10px;">
-            <h1 class="detail-description-title">- 概要
+            <h1 class="detail-description-title detail-title">- 概要
               <a id="update-btn" class="user-tool-update-btn" data-toggle="modal" data-target="#update-modal">
                 <i class="fa fa-pencil"></i>
               </a>
@@ -90,10 +90,10 @@
         </div>
         <div class="row mt-3 mb-1 mt-sm-5 mb-sm-3">
           <div class="col-12 col-sm-8" style="border:1px solid #999;">
-            <h2 class="detail-producter">- 製作者情報</h2>
+            <h2 class="detail-producter detail-title">- 製作者情報</h2>
             <div class="row">
               <div class="col-4 col-sm-2 mb-1 mb-sm-3">
-                <img src="http://res.cloudinary.com/do40sxkcd/image/upload/<%= product.relations.user.attributes.user_cloud %>" alt="mahiru"height="60" width="60" style="border-radius:30px;">
+                <img class="details-img" src="http://res.cloudinary.com/do40sxkcd/image/upload/<%= product.relations.user.attributes.user_cloud %>" alt="mahiru">
               </div>
               <div class="col-8 col-sm-10 mt-3 mt-sm-4">
                 <p><%= product.relations.user.attributes.username %></p>
@@ -187,7 +187,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h4><div class="modal-title" id="myModalLabel">「<%= product.attributes.title %>」の編集</div></h4>
+              <h4 class="update-modal-title"><div class="modal-title" id="myModalLabel">「<%= product.attributes.title %>」の編集</div></h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -205,7 +205,7 @@
                   <% } %>
                 </div>
               </div>
-              <form class="" action="/detail/mypage_detail/<%= product.id %>" method="post" enctype="multipart/form-data">
+              <form action="/detail/mypage_detail/<%= product.id %>" method="post" enctype="multipart/form-data">
                 <label for="create_title">タイトル：</label><br>
                 <input id="create_title" class="form-control" type="text" name="title" value="<%= product.attributes.title %>" placeholder="タイトル">
                 <label for="create_description">概要：</label><br>
@@ -228,13 +228,13 @@
                     <label for="private">非公開</label>
                   </div>
                 </div>
-                <label for="create_image">画像</label><br>
+                <label for="create_image">画像：</label><br>
                 <input id="file2" class="create-image" type="file" name="thumbnail" value=""><br>
                 <div class="images">
                   <img id="result2" src="http://res.cloudinary.com/do40sxkcd/image/upload/<%= product.attributes.product_cloud %>" height="100" width="150">
                 </div>
                 <div class="create_send_btn pr-3 pr-sm-5" style="text-align:right;">
-                  <input class="btn btn-primary" style="font-size:20px; width:100px;" type="submit" value="更新">
+                  <input class="btn btn-primary update-btn" type="submit" value="更新">
                 </div>
               </form>
             </div>

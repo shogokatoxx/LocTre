@@ -42,7 +42,7 @@
           </div>
         </div>
       </div>
-      <div class="container mt-5 mt-sm-5">
+      <div class="container mt-3 mt-sm-5">
         <div class="row">
           <div class="col-12 col-sm-8">
             <div class="lists-title">
@@ -89,7 +89,7 @@
                     <p style="margin:0;"><%- str %></p>
                     <div class="row">
                       <div class="col-4 col-sm-4">
-                        <img src="http://res.cloudinary.com/do40sxkcd/image/upload/<%= obj.relations.user.attributes.user_cloud %>" alt="<%= obj.relations.user.attributes.username %>" height="50" width="50" style="border-radius:25px;">
+                        <img class="lists-img" src="http://res.cloudinary.com/do40sxkcd/image/upload/<%= obj.relations.user.attributes.user_cloud %>" alt="<%= obj.relations.user.attributes.username %>">
                       </div>
                       <div class="col-6 col-sm-6 pt-sm-3">
                         <p><%= obj.relations.user.attributes.username %></p>
@@ -109,14 +109,14 @@
                         <% if(item.attributes.product_id == obj.id && item.attributes.good_user == obj.relations.user.id){ %>
                           <button class="good-btn fass" data-productid="<%= obj.id %>" data-gooduser="<%= obj.relations.user.id %>">
                             <div class="good-box">
-                              <i class="fa fa-heart" style="font-size:20px;"> <%= obj.attributes.good_count %></i>
+                              <i class="fa fa-heart"> <%= obj.attributes.good_count %></i>
                             </div>
                           </button>
                         <% } %>
                       <% } %>
                       <button class="good-btn farr" data-productid="<%= obj.id %>" data-gooduser="<%= obj.relations.user.id %>">
                         <div class="good-box">
-                          <i class="fa fa-heart" style="font-size:20px;"> <%= obj.attributes.good_count %></i>
+                          <i class="fa fa-heart"> <%= obj.attributes.good_count %></i>
                         </div>
                       </button>
                     </div>
@@ -220,7 +220,7 @@
                   <img id="result" src="" style="border-radius:50%;">
                 </div>
                 <div class="create_send_btn pr-3 pr-sm-5" style="text-align:right;">
-                  <input class="btn btn-primary" style="font-size:20px; width:100px;" type="submit" value="保存">
+                  <input class="btn btn-primary profile-change-btn" type="submit" value="保存">
                 </div>
               </form>
             </div>
