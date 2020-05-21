@@ -104,12 +104,12 @@ router.get('/mypage',function(req,res,next){
 // プロフ変更機能
 router.post('/change_profile',upload.single('thumbnail'),function(req,res,next){
   try{
-    if(req.file.filename.endsWith('gif') || req.file.filename.endsWith('jpg') || req.file.filename.endsWith('png')){
+    if(req.file.filename.endsWith('gif') || req.file.filename.endsWith('jpg') || req.file.filename.endsWith('png') || req.file.filename.endsWith('jpeg')){
       req.body.profile = 'succsess';
     }
   }catch(e){
     console.log('image not found');
-    res.send('画像の拡張子はgif,jpg,pngのどれかで登録してください。');
+    res.send('画像の拡張子はgif,jpg,png,jpegのどれかで登録してください。');
   }
   let changeProfileImage = req.file.filename;
   let loginUserObj = req.session.login;

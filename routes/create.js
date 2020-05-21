@@ -45,18 +45,18 @@ router.post('/',upload.single('thumbnail'),(req,res)=>{
   // console.log(req.file);
   req.check('title','タイトルは必ず入力してください。').notEmpty();
   try{
-    if(req.file.filename.endsWith('gif') || req.file.filename.endsWith('jpg') || req.file.filename.endsWith('png')){
+    if(req.file.filename.endsWith('gif') || req.file.filename.endsWith('jpg') || req.file.filename.endsWith('png') || req.file.filename.endsWith('jpeg')){
       req.body.thumbnail = 'succsess';
     }
   }catch(e){
     console.log('image not found');
     console.log(e.message);
   }
-  req.check('thumbnail','画像は必ず入れてください。(拡張子はgif,jpg,pngのどれかでお願いします)').notEmpty();
+  req.check('thumbnail','画像は必ず入れてください。(拡張子はgif,jpg,png,jpegのどれかでお願いします)').notEmpty();
   req.sanitize('description').escape();
   req.getValidationResult().then((result)=>{
     if(!result.isEmpty()){
-      console.log(req.body.thumbnail);
+      console.log('ファイル名：'+req.file.filename);
       let loginUserObj = req.session.login;
       var re = '<ul class="error" style="color:red;">';
       var result_arr = result.array();
@@ -88,7 +88,9 @@ router.post('/',upload.single('thumbnail'),(req,res)=>{
       console.log(description);
       console.log(req.file.path);
       cloudinary.uploader.upload(req.file.path,function(error,result){
-        console.log(result);
+        if(error){
+          console.log(error.message);
+        }
         new Product({'user_id':loginUserObj.id,'title':title,'description':description,'images':req.file.filename,'product_cloud':result.public_id,'publish':publish,'created_at':formatted}).save().then((collection)=>{
           res.redirect('/lists/lists/1');
         });

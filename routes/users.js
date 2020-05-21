@@ -30,28 +30,19 @@ let cloudinary = require('../config/cloudinary_con').cloudinary;
 /* GET users listing. */
 router.get('/signup', function(req, res, next) {
   var data = {
-    form:{username:'',password:''},
-    content:'',
-    profile:''
+    form:{username:'',password:'',password2:''},
+    content:''
   }
   res.render('signup',data);
 });
 
 //post signup method
-router.post('/signup',upload.single('profile'),function(req,res,next){
+router.post('/signup',function(req,res,next){
   req.check('username','usernameは必ず入力してください。').notEmpty();
   req.check('password','passwordは必ず入力してください。').notEmpty();
   req.check('password','passwordは必ず8文字以上に設定してください。').isLength({min:8});
   req.check('password','passwordに数値を含めてください。').matches(/\d/);
-  try{
-    if(req.file.filename.endsWith('gif') || req.file.filename.endsWith('jpg') || req.file.filename.endsWith('png')){
-      req.body.profile = 'succsess';
-    }
-  }catch(e){
-    console.log('image error');
-    console.log(e.message);
-  }
-  req.check('profile','画像を必ず入力してください。(拡張子はgif,jpg,pngのどれかでお願いします)').notEmpty();
+  req.check('password','passwordの値が確認用と違っています。').equals(req.body.password2)
   req.getValidationResult().then((result)=>{
     if(!result.isEmpty()){
       var content = '<ul class="errors" style="color:red;">';
@@ -62,8 +53,7 @@ router.post('/signup',upload.single('profile'),function(req,res,next){
       content += '</ul>';
       var data = {
         form:req.body,
-        content:content,
-        profile:{profiles:''}
+        content:content
       };
       res.render('signup',data);
     }else{
@@ -73,8 +63,7 @@ router.post('/signup',upload.single('profile'),function(req,res,next){
         content += '<li>このユーザー名は存在してます。</li></ul>';
         var data = {
           form:req.body,
-          content:content,
-          profile:{profiles:''}
+          content:content
         };
         res.render('signup',data);
       })
@@ -82,14 +71,13 @@ router.post('/signup',upload.single('profile'),function(req,res,next){
         req.session.login = null;
         var password = req.body.password;
         var hash = createHash(password);
-        var profile = req.file.filename;
-        cloudinary.uploader.upload(req.file.path,function(error,result){
-          new User({'username':username,'password':hash,'filename':profile,'user_cloud':result.public_id}).save().then((result)=>{
-            res.redirect('/users');
-          })
-          .catch((err) => {
-            res.status(500).json({error:true,data:{message:err.message}});
-          });
+        var default_public_id = 'yzu7y7hfhr5epvto2oms.png';
+        
+        new User({'username':username,'password':hash,'filename':default_public_id,'user_cloud':default_public_id}).save().then((result)=>{
+          res.redirect('/users');
+        })
+        .catch((err) => {
+          res.status(500).json({error:true,data:{message:err.message}});
         });
       })
     }
