@@ -19,6 +19,7 @@ var detailRouter = require('./routes/detail');
 var create = require('./routes/create');
 var good = require('./routes/good');
 const pass = require('./routes/pass');
+const admin = require('./routes/admin');
 
 var app = express();
 
@@ -48,6 +49,7 @@ app.use('/detail',detailRouter);
 app.use('/create',create);
 app.use('/good',good);
 app.use('/pass',pass);
+app.use('/loctre_admin',admin);
 // app.get('/db', async (req, res) => {
 //     try {
 //       const client = await pool.connect()
