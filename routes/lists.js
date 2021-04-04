@@ -36,40 +36,80 @@ var upload = multer({storage:storage});
 
 let cloudinary = require('../config/cloudinary_con').cloudinary;
 
+
+////////////////////////
 // 全一覧ビュー(新規順)
+////////////////////////
 router.get('/lists/:page',function(req,res,next){
   if(req.session.login == null){
     res.redirect('/users');
     return;
   }
-  var users;
+  let users;
   let goods;
+  let products;
+  let paginationObj;
   let page = req.params.page;
   page *= 1;
   if(page < 1){page = 1;}
   let loginUserObj = req.session.login;
-  new User().where('id','=',loginUserObj.id).fetch().then((collection)=>{
-    users = collection;
-  });
-  new Good().where('user_id','=',loginUserObj.id).fetchAll().then((collection)=>{
-    goods = collection.toArray();
-  });
-  new Product().where('publish','=','Public').orderBy('created_at','DESC').fetchPage({pageSize:12,page:page,withRelated:['user']}).then((collection) => {
+  
+  // ユーザー情報取得プロセス
+  let userGetProcess = async function(){
+    await new User().where('id','=',loginUserObj.id).fetch().then((collection)=>{
+      users = collection;
+    })
+    .catch((err) => {
+      res.status(500).json({error:true,data:{message:err.message}});
+    });
+  }
+
+  // いいね情報取得プロセス
+  let goodGetProcess = async function(){
+    await new Good().where('user_id','=',loginUserObj.id).fetchAll().then((collection)=>{
+      goods = collection.toArray();
+    })
+    .catch((err) => {
+      res.status(500).json({error:true,data:{message:err.message}});
+    });
+  }
+
+  // 製作物情報取得プロセス
+  let productGetProcess = async function(){
+    await new Product().where('publish','=','Public').orderBy('created_at','DESC').fetchPage({pageSize:12,page:page,withRelated:['user']}).then((collection) => {
+      products = collection.toArray();
+      paginationObj = collection.pagination;
+    })
+    .catch((err) => {
+      res.status(500).json({error:true,data:{message:err.message}});
+    });
+  }
+
+  // 最終実行プロセス
+  let finalProcess = function(){
     var data = {
       title:'・全制作物一覧(新規順)',
       pass:'lists',
-      content:collection.toArray(),
-      pagination:collection.pagination,
+      content:products,
+      pagination:paginationObj,
       users:users,
       goods:goods
     };
-    console.log(users);
-    console.log(collection.pagination);
+    // [DEBUG]
+    // console.log(users);
+    // console.log(collection.pagination);
     res.render('lists',data);
-  })
-  .catch((err) => {
-    res.status(500).json({error:true,data:{message:err.message}});
-  });
+  }
+
+  let processAll = async function(){
+    await userGetProcess();
+    await goodGetProcess();
+    await productGetProcess();
+    // 上の3つの処理が終われば実行される
+    finalProcess();
+  }
+
+  processAll();
 });
 
 // マイページ
@@ -78,30 +118,72 @@ router.get('/mypage',function(req,res,next){
     res.redirect('/users');
     return;
   }
-  let users;
-  let goods;
+  var users;
+  var goods;
+  var product;
   let loginUserObj = req.session.login;
-  new User().where('id','=',loginUserObj.id).fetch().then((collection)=>{
-    users = collection;
-  });
-  new Good().where('user_id','=',loginUserObj.id).fetchAll().then((collection)=>{
-    goods = collection.toArray();
-  });
-  new Product().where('user_id','=',loginUserObj.id).orderBy('created_at','DESC').fetchAll({withRelated:['user']}).then((collection) => {
+  // ユーザー情報情報取得プロセス
+  let usersGetProcess = async function(){
+    await new User().where('id','=',loginUserObj.id).fetch().then((collection)=>{
+      console.log(collection);
+      users = collection;
+    })
+    .catch((err) => {
+      res.status(500).json({error:true,data:{message:err.message}});
+    });
+  } 
+  // いいね情報情報取得プロセス
+  let goodGetProcess = async function(){
+    await new Good().where('user_id','=',loginUserObj.id).fetchAll().then((collection)=>{
+      console.log(collection.toArray());
+      goods = collection.toArray();
+    })
+    .catch((err) => {
+      res.status(500).json({error:true,data:{message:err.message}});
+    });
+  }
+  // 製作物情報取得プロセス
+  let productGetProcess = async function(){
+    await new Product().where('user_id','=',loginUserObj.id).orderBy('created_at','DESC').fetchAll({withRelated:['user']}).then((collection) => {
+      console.log(collection.toArray());
+      product = collection.toArray();
+    })
+    .catch((err) => {
+      res.status(500).json({error:true,data:{message:err.message}});
+    });
+  }
+  // 最終実行プロセス
+  let finalProcess = function(){
     var data = {
-      content:collection.toArray(),
+      content:product,
       users:users,
       goods:goods
     };
-    console.log(users);
+    // [DEBUG]
+    // console.log('loginUserObj_id:'+loginUserObj.id);
+    // console.log('users:'+users);
+    // console.log('goods:'+goods);
+    // console.log('products:'+product);
+    // console.log('loginObj:'+loginUserObj);
+
     res.render('mypage',data);
-  })
-  .catch((err) => {
-    res.status(500).json({error:true,data:{message:err.message}});
-  });
+  }
+  let processAll = async function(){
+    await usersGetProcess();
+    await goodGetProcess();
+    await productGetProcess();
+    // 上のプロセスが全て終了したらこれが実行される
+    finalProcess();
+  }
+
+  processAll();
+  
 });
 
+
+///////////////////
 // プロフ変更機能
+///////////////////
 router.post('/change_profile',upload.single('thumbnail'),function(req,res,next){
   try{
     if(req.file.filename.endsWith('gif') || req.file.filename.endsWith('jpg') || req.file.filename.endsWith('png') || req.file.filename.endsWith('jpeg')){

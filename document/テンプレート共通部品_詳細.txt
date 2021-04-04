@@ -1,0 +1,31 @@
+・ヘッダー部品
+    テンプレート名：header.ejs
+    内容：<header>〜</header>
+    パラメータ：無し
+
+・アプリ詳細カード
+    テンプレート名：app_description.ejs
+    内容：<div class="container">〜</div>
+    パラメータ：無し
+
+・下部ページナビゲーション
+    テンプレート名：pagination_nav
+    内容：<nav aria-label="Page navigation"></nav>
+    パラメータ：{pass:pass,pagination:pagination}
+
+・ハンバーガーメニュー
+    テンプレート名：click_menu
+    内容：<div class="click-menu">〜</div>
+    パラメータ：{users:users}
+
+・検索モーダル
+    テンプレート名：serch_modal
+    内容：<div class="modal fade">〜</div>
+    パラメータ：無し
+
+・プロフィール画像設定モーダル
+    テンプレート名：profile_modal
+    内容：<div class="container">〜</div>
+    パラメータ：無し
+
+    

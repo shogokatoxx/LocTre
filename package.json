@@ -8,7 +8,7 @@
   "dependencies": {
     "bcrypt": "^3.0.7",
     "bookshelf": "^1.0.1",
-    "cloudinary": "^1.19.0",
+    "cloudinary": "^1.25.1",
     "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.4",
     "date-utils": "^1.2.21",

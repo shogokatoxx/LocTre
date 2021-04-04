@@ -74,25 +74,57 @@ router.get('/mypage_detail/:productId/:userId',((req,res,next)=>{
   let userId = req.params.userId;
   let users;
   let goods;
-  new User().where('id','=',loginUserObj.id).fetch().then((collection)=>{
-    users = collection;
-  });
-  new Good().where('user_id','=',loginUserObj.id).fetchAll().then((collection)=>{
-    goods = collection.toArray();
-  });
-  new Product().where('id','=',productId).fetch({withRelated:['user']}).then((collection)=>{
+  let product;
+
+  let userGetProcess = async function(){
+    await new User().where('id','=',loginUserObj.id).fetch().then((collection)=>{
+      users = collection;
+    })
+    .catch((err)=>{
+      res.status(500).json({error:true,data:{message:err.message}});
+    });
+  }
+
+  let goodGetProcess = async function(){
+    await new Good().where('user_id','=',loginUserObj.id).fetchAll().then((collection)=>{
+      goods = collection.toArray();
+    })
+    .catch((err)=>{
+      res.status(500).json({error:true,data:{message:err.message}});
+    });
+  }
+
+  let productGetProcess = async function(){
+    await new Product().where('id','=',productId).fetch({withRelated:['user']}).then((collection)=>{
+      product = collection;
+    })
+    .catch((err)=>{
+      res.status(500).json({error:true,data:{message:err.message}});
+    });
+  }
+  
+  let finalProcess = function(){
     let data = {
-      product:collection,
+      product:product,
       users:users,
       goods:goods,
       content:''
     };
-    console.log(data.users);
+    // [DEBUG]
+    // console.log(data.users);
+
     res.render('mypage_detail',data);
-  })
-  .catch((err)=>{
-    res.status(500).json({error:true,data:{message:err.message}});
-  })
+  }
+
+  let processAll = async function(){
+    await userGetProcess();
+    await goodGetProcess();
+    await productGetProcess();
+    finalProcess();
+  }
+
+  processAll();
+  
 }));
 
 // 編集機能(モーダルからのアクセス)

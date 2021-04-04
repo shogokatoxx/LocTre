@@ -90,10 +90,12 @@ router.post('/',upload.single('thumbnail'),(req,res)=>{
       cloudinary.uploader.upload(req.file.path,function(error,result){
         if(error){
           console.log(error.message);
+          console.log(result);
+        }else{
+          new Product({'user_id':loginUserObj.id,'title':title,'description':description,'images':req.file.filename,'product_cloud':result.public_id,'publish':publish,'created_at':formatted}).save().then((collection)=>{
+            res.redirect('/lists/lists/1');
+          });
         }
-        new Product({'user_id':loginUserObj.id,'title':title,'description':description,'images':req.file.filename,'product_cloud':result.public_id,'publish':publish,'created_at':formatted}).save().then((collection)=>{
-          res.redirect('/lists/lists/1');
-        });
       });
     }
   });

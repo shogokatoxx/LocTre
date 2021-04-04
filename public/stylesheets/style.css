@@ -375,20 +375,14 @@
   }
 }
 
-
 /* パソコン用 */
 @media screen and (min-width:781px){
   body{
     padding:0;
     margin:0;
-    font-size:16px;
+    font-size:14px;
   }
-  #top header{
-    width:100%;
-    height:100px;
-    margin:0 auto;
-    background-color:yellow;
-  }
+  /* ヘッダー */
   #lists header,#detail header{
     position:fixed;
     top:0;
@@ -462,6 +456,67 @@
     opacity:0.8;
     cursor:pointer;
   }
+  
+
+  /* アプリ説明 */
+  #main .base-title h1{
+    font-family:'Bitter',serif;
+    font-size:44px;
+    margin-top:20px;
+    padding-left:20px;
+  }
+  #main .base-title p{
+    padding-top:20px;
+    font-size:16px;
+    font-family:arial;
+    padding-left:20px;
+    padding-bottom:20px;
+  }
+  #main .base-image{
+    margin:auto auto;
+  }
+
+  /* --------------------------------- */
+  /* メインコンテンツCSS */
+  /* --------------------------------- */
+  /* [共通CSS] */
+  #main {
+    position:relative;
+    margin-top:70px;
+  }
+  .page-link{
+    color:#009cd3;
+  }
+  .update-btn{
+    width:30%;
+    font-size:1.3rem;
+  }
+  .create-btn{
+    width:10%;
+    font-size:1.3rem;
+  }
+  .modal-header{
+    background:#fcff42;
+  }
+  .modal-body{
+    background:rgb(243,243,243);
+  }
+  .modal-body .mini-ul li{
+    font-size:12px;
+  }
+  /* モーダル編集の更新ボタン */
+  .create_send_btn .update-btn{
+    width:20%;
+    font-size:1.1rem;
+  }
+
+  /* [トップ画面CSS] */
+  #top header{
+    width:100%;
+    height:100px;
+    margin:0 auto;
+    background-color:yellow;
+  }
   #top .global-nav li a{
     color:#666;
   }
@@ -516,33 +571,84 @@
     color:#009cd3;
   }
 
-  #main .base-title h1{
-    font-family:'Bitter',serif;
-    font-size:50px;
-    margin-top:50px;
+  /* [ログイン画面CSS] */
+  .create-form{
+    box-shadow:0 4px 8px rgba(0, 0, 0, 0.322);
+    border-radius:5px;
+    background:#eee;
   }
-  #main .base-title p{
-    padding-top:30px;
-    font-size:18px;
-    font-family:arial;
+
+  /* [新規/人気_一覧画面CSS] */
+  .lists-title h2{
+    font-size:24px;
   }
-  #main {
-    position:relative;
-    margin-top:70px;
+
+  /* [製作物_詳細画面CSS] */
+  .detail-description{
+    /* box-shadow:0 4px 8px rgba(0, 0, 0, 0.322); */
+    box-shadow:0 3px 7px rgba(0,0,0,.2);
+    font-size:14px;
+    border-radius:5px;
   }
+  .detail-description p{
+    min-height:200px;
+    max-height:200px;
+    /* max-height超えるとそれ以降は「...」に変化 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .detail-description-title{
+    border-bottom:2px solid #999;
+    font-size:28px;
+    font-family:serif;
+    font-weight:bold;
+  }
+  .detail-producter{
+    border-bottom:2px solid #999;
+    font-size:22px;
+    font-family:serif;
+    font-weight:bold;
+  }
+  .detail-product-img{
+    box-shadow:0 3px 7px rgba(0,0,0,.2);
+    width:100%;
+    height:350px;
+  }
+  .detail-user-profile{
+    box-shadow:0 3px 7px rgba(0,0,0,.2);
+  }
+
+  /* [共通カードスタイル] */
+  .card{
+    box-shadow:0 3px 5px rgba(0,0,0,.2);
+    border-radius:5px;
+  }
+  .card-img-title{
+    width:100%;
+    height:220px;
+    min-width:100%;
+    min-height:220px;
+  }
+
+
+  /* --------------------------------- */
+  /* サイドメニューCSS */
+  /* --------------------------------- */
   #main .click-menu{
     position:fixed;
-    top:-100%;
-    left:0;
+    top:70px;
+    left:-100%;
     width:20%;
     height:100%;
-    border-right:1px solid #666;
-    transition:0.5s ease-out;
+    box-shadow:0 3px 5px rgba(0,0,0,.2);
+    border-radius:5px;
+    transition:0.3s;
     background:#fff;
   }
   #main .click-menu.open{
-    top:70px;
-    transition:0.5s ease-out;
+    left:0;
+    transition:0.2s;
     background:#fff;
   }
   #main .boxs{
@@ -550,14 +656,14 @@
     width:100%;
   }
   .menu-content .menus{
-    font-size:28px;
+    font-size:24px;
     line-height:2;
   }
   .menu-content .menus .menu-link{
     color:#333;
   }
   .menu-content .menus .menu-link:hover{
-    border-bottom:1.5px solid #333;
+    opacity:0.8;
   }
   #main .container{
     transition:1s ease-out;
@@ -567,23 +673,14 @@
     margin:0 0 0 auto;
     transition:1s ease-out;
   }
-  .detail-description-title{
-    border-bottom:2px solid #999;
-    font-size:30px;
-    font-family:serif;
-    font-weight:bold;
-  }
-  .detail-producter{
-    border-bottom:2px solid #999;
-    font-size:25px;
-    font-family:serif;
-    font-weight:bold;
-  }
+
   .profile-modal{
     width:500px;
     margin:0 auto;
   }
-  /* いいねボタン専用クラス */
+
+
+  /* いいねボタン */
   .fass{
     color:red;
     transition:1s ease-out;
@@ -595,6 +692,7 @@
   .good-btn{
     border:none;
     cursor:pointer;
+    background:#fff;
   }
   .good-btn:hover{
     opacity:0.8;
@@ -611,7 +709,8 @@
     display:inline-block;
     width:49%;
     font-size:28px;
-    border:1px solid #ddd;text-align:center;
+    border:1px solid #ddd;
+    text-align:center;
     color:#4ab0df;
   }
   .user-tool-btns:hover{
@@ -661,12 +760,5 @@
     color:#aaa;
     font-size:.8rem;
   }
-  .update-btn{
-    width:30%;
-    font-size:1.3rem;
-  }
-  .create-btn{
-    width:10%;
-    font-size:1.3rem;
-  }
+  
 }

@@ -1,0 +1,19 @@
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center mt-3 p-1 mt-sm-5 p-sm-3">
+      <li class="page-item"><a class="page-link" href="/lists/<%= pass %>/1">&lt;&lt; 前へ</a></li>
+      <% if(pagination.page == 1){ %>
+        <% if(pagination.page+1 <= pagination.pageCount){ %>
+          <li class="page-item"><a class="page-link" href="/lists/<%= pass %>/<%= pagination.page+1 %>"><%= pagination.page+1 %></a></li>
+        <% } %>
+        <% if(pagination.page+2 <= pagination.pageCount){ %>
+          <li class="page-item"><a class="page-link" href="/lists/<%= pass %>/<%= pagination.page+2 %>"><%= pagination.page+2 %></a></li>
+        <% } %>
+      <% }else{ %>
+        <li class="page-item"><a class="page-link" href="/lists/<%= pass %>/<%= pagination.page-1 %>"><%= pagination.page-1 %></a></li>
+        <% if(pagination.page-2 > 0){ %>
+            <li class="page-item"><a class="page-link" href="/lists/<%= pass %>/<%= pagination.page-2 %>"><%= pagination.page-2 %></a></li>
+        <% } %>
+      <% } %>
+      <li class="page-item"><a class="page-link" href="/lists/<%= pass %>/<%= pagination.pageCount %>">次へ &gt;&gt;</a></li>
+    </ul>
+</nav>

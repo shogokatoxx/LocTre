@@ -1,0 +1,38 @@
+<div class="click-menu">
+    <div class="profile pt-3 pb-1 pt-sm-5 pb-sm-3" style="background-color:#4e4e4e;">
+      <div class="profile-img" style="text-align:center;">
+        <a data-toggle="modal" data-target="#profile-modal">
+          <img src="http://res.cloudinary.com/do40sxkcd/image/upload/<%= users.attributes.user_cloud %>" alt="<%= users.attributes.username %>" height="60" width="60" style="border-radius:30px;">
+        </a>
+      </div>
+      <div class="profile-text" style="text-align:center;color:#fff;">
+        <p style="font-size:20px;"><%= users.attributes.username %></p>
+      </div>
+    </div>
+    <div class="menu-content mt-sm-3" style="text-align:center;">
+      <div class="menus">
+        <a href="/lists/mypage" class="menu-link"><i class="fa fa-male "> マイページ</i> </a>
+      </div>
+      <div class="menus">
+        <a href="/create" class="menu-link"><i class="fa fa-pencil menu-font"> 新規投稿</i></a>
+      </div>
+      <div class="menus">
+        <a href="/lists/lists/1" class="menu-link"><i class="fa fa-sort-numeric-asc "> 新規順</i></a>
+      </div>
+      <div class="menus">
+        <a href="/lists/goodranking/1" class="menu-link"><i class="fa fa-thumbs-o-up "> 人気順</i></a>
+      </div>
+      <div class="menus">
+        <a href="/lists/lists_good/1" class="menu-link"><i class="fa fa-heart "> いいねした投稿</i></a>
+      </div>
+      <div class="menus">
+        <a href="/users/logout" class="menu-link"><i class="fa fa-user-times "> ログアウト</i> </a>
+      </div>
+      <div class="menus">
+        <a href="/users" class="menu-link"><i class="fa fa-user "> ログイン</i></a>
+      </div>
+      <div class="menus">
+        <a href="/users/signup" class="menu-link"><i class="fa fa-user-plus "> ユーザー登録</i></a>
+      </div>
+    </div>
+  </div>

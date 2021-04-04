@@ -1,52 +1,15 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>LocTreローカルに眠っているアプリを管理</title>
-    <!-- <meta name="viewport" content="width=device-width,user-scalable=yes,maximum-scale=2"> -->
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
+  <%- include('includes/head',{}) %>
   <body id="detail">
-    <header>
-      <div class="logo">
-        <div class="menu-btn">
-          <a class="menu-link">
-            <i class="fa fa-bars "></i>
-          </a>
-        </div>
-        <h1>-LocTre-</h1>
-      </div>
-      <nav>
-        <ul class="global-nav">
-          <li><a data-toggle="modal" data-target="#modal"><i class="fa fa-search "></i></a></li>
-        </ul>
-      </nav>
-    </header>
+    <%- include('includes/header',{mode:1}) %>
     <div id="main">
-      <div class="container">
-        <div class="boxs"></div>
-        <div class="row" style="border:1px solid #666;border-radius:10px;">
-          <div class="col-12 col-sm-8">
-            <div class="base-title">
-              <h1>LocalTreasure</h1>
-              <p>ローカルに眠ったアプリを管理。<br>
-                公開/シェアして盛り上がっていこう!!<br>
-              (Twitterへのシェア機能は後日実装予定です。)</p>
-            </div>
-          </div>
-          <div class="base-image col-12 col-sm-4">
-            <img src="../../../images/loctre_treasure.png" alt="local-treasure-picture">
-          </div>
-        </div>
-      </div>
-      <div class="container mt-3 mt-sm-5">
+      <%- include('includes/app_description') %>
+      <div class="container mt-3 mt-sm-3">
         <div class="row">
-          <div class="col-12 col-sm-12" style="border:1px solid #666;">
+          <div class="col-12 col-sm-12">
             <div class="lists-title">
-              <h2 class="pt-1 pb-1 pt-sm-3 pb-sm-2" style="font-family:arial;"><%= product.attributes.title %></h2>
+              <h2 class="pt-1 pb-1 pt-sm-1 pb-sm-2"></h2>
             </div>
           </div>
         </div>
@@ -54,13 +17,15 @@
       <div class="container mt-2 mt-sm-3">
         <div class="row">
           <div class="detail-img col-12 col-sm-6">
-            <img src="http://res.cloudinary.com/do40sxkcd/image/upload/<%= product.attributes.product_cloud %>" alt="taskchecker" width="100%" height="350" style="border:1px solid #999;">
+            <a href="http://res.cloudinary.com/do40sxkcd/image/upload/<%= product.attributes.product_cloud %>" data-lightbox="group">
+              <img class="detail-product-img" src="http://res.cloudinary.com/do40sxkcd/image/upload/<%= product.attributes.product_cloud %>" alt="product-img">
+            </a>
           </div>
-          <div class="col-12 col-sm-6 mt-3" style="border:1px solid #999999;font-size:14px;font-family:arial; border-radius:10px;">
-            <h1 class="detail-description-title detail-title">- 概要</h1>
+          <div class="col-12 col-sm-6 pt-2 detail-description">
+            <h1 class="detail-description-title detail-title"><%= product.attributes.title %></h1>
             <p class="mt-2 mt-2 mt-sm-4"><%- product.attributes.description %></p>
             <% var d = new Date(product.attributes.created_at);
-            var month = ('0'+d.getMonth()).slice(-2);
+            var month = ('0'+(d.getMonth()+1)).slice(-2);
             var date = ('0'+d.getDate()).slice(-2);
             var hours = ('0'+d.getHours()).slice(-2);
             var minutes = ('0'+d.getMinutes()).slice(-2);
@@ -85,8 +50,8 @@
           </div>
         </div>
         <div class="row mt-4 mb-1 mt-sm-5 mb-sm-3">
-          <div class="col-12 col-sm-8" style="border:1px solid #999;">
-            <h2 class="detail-producter detail-title">- 製作者情報</h2>
+          <div class="col-12 col-sm-8 detail-user-profile">
+            <h2 class="detail-producter detail-title">製作者情報</h2>
             <div class="row">
               <div class="col-4 col-sm-2 mb-1 mb-sm-3">
                 <img class="details-img" src="http://res.cloudinary.com/do40sxkcd/image/upload/<%= product.relations.user.attributes.user_cloud %>" alt="mahiru">
@@ -97,94 +62,10 @@
             </div>
           </div>
         </div>
-        <div class="click-menu">
-          <div class="profile pt-3 pb-1 pt-sm-5 pb-sm-3" style="background-color:#4e4e4e;">
-            <div class="profile-img" style="text-align:center;">
-              <a data-toggle="modal" data-target="#profile-modal">
-                <img src="http://res.cloudinary.com/do40sxkcd/image/upload/<%= users.attributes.user_cloud %>" alt="admin" height="60" width="60" style="border-radius:30px;">
-              </a>
-            </div>
-            <div class="profile-text" style="text-align:center;color:#fff;">
-              <p style="font-size:20px;"><%= users.attributes.username %></p>
-            </div>
-          </div>
-          <div class="menu-content mt-sm-3" style="text-align:center;">
-            <div class="menus">
-              <a href="/lists/mypage" class="menu-link"><i class="fa fa-male "> マイページ</i> </a>
-            </div>
-            <div class="menus">
-              <a href="/create" class="menu-link"><i class="fa fa-pencil menu-font"> 新規投稿</i></a>
-            </div>
-            <div class="menus">
-              <a href="/lists/lists/1" class="menu-link"><i class="fa fa-sort-numeric-asc "> 新規順</i></a>
-            </div>
-            <div class="menus">
-              <a href="/lists/goodranking/1" class="menu-link"><i class="fa fa-thumbs-o-up "> 人気順</i></a>
-            </div>
-            <div class="menus">
-              <a href="/lists/lists_good/1" class="menu-link"><i class="fa fa-heart "> いいねした投稿</i></a>
-            </div>
-            <div class="menus">
-              <a href="/users/logout" class="menu-link"><i class="fa fa-caret-square-o-right "> ログアウト</i> </a>
-            </div>
-            <div class="menus">
-              <a href="/users" class="menu-link"><i class="fa fa-caret-square-o-left "> ログイン</i></a>
-            </div>
-            <div class="menus">
-              <a href="/users/signup" class="menu-link"><i class="fa fa-group "> Sign Up</i></a>
-            </div>
-          </div>
-        </div>
-      <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="labell" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="labell">タイトルで検索</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <form class="" action="/lists/serch" method="post">
-            <div class="modal-body">
-              <input type="text" class="form-control" placeholder="タイトルを入力" name="title" value="">
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-danger">検索</button>
-            </div>
-            </form>
-          </div>
-        </div>
-      </div>
-      <div class="modal fade profile-modal" id="profile-modal" tabindex="-1" role="dialog" aria-labelledby="labell" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4><div class="modal-title" id="myModalLabel">プロフィール画像変更</div></h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form class="" action="/lists/change_profile" method="post" enctype="multipart/form-data">
-                <input id="file" class="create-image" type="file" name="thumbnail" value=""><br>
-                <div class="images">
-                  <img id="result" src="" style="border-radius:50%;">
-                </div>
-                <div class="create_send_btn pr-3 pr-sm-5" style="text-align:right;">
-                  <input class="btn btn-primary" style="font-size:20px; width:100px;" type="submit" value="保存">
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
+        <%- include('includes/click_menu',{users:users}) %>
+      <%- include('includes/serch_modal',{}) %>
+      <%- include('includes/profile_modal',{}) %>
     </div>
-    <script src="https://code.jquery.com/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-    crossorigin="anonymous"></script>
-    <script type="text/javascript" src="/javascripts/main.js"></script>
+    <%- include('includes/under_scripts',{}) %>
   </body>
 </html>
