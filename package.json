@@ -6,7 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "bcrypt": "^3.0.7",
+    "bcrypt": "^5.0.0",
     "bookshelf": "^1.0.1",
     "cloudinary": "^1.25.1",
     "connect-flash": "^0.1.1",
