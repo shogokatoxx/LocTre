@@ -43,24 +43,54 @@ router.get('/:productId/:userId/',function(req,res,next){
   let userId = req.params.userId;
   let users;
   let goods;
-  new User().where('id','=',loginUserId).fetch().then((collection)=>{
-    users = collection;
-  });
-  new Good().where('user_id','=',loginUserId).fetchAll().then((collection)=>{
-    goods = collection.toArray();
-  });
-  new Product().where('id','=',productId).fetch({withRelated:['user']}).then((collection)=>{
+  let product;
+
+  let userGetProcess = async function(){
+    await new User().where('id','=',loginUserId).fetch().then((collection)=>{
+      users = collection;
+    })
+    .catch((err) => {
+      res.status(500).json({error:true,data:{message:err.message}});
+    });
+  }
+  
+  let goodGetProcess = async function(){
+    await new Good().where('user_id','=',loginUserId).fetchAll().then((collection)=>{
+      goods = collection.toArray();
+    })
+    .catch((err) => {
+      res.status(500).json({error:true,data:{message:err.message}});
+    });
+  } 
+  
+  let productGetProcess = async function(){
+    await new Product().where('id','=',productId).fetch({withRelated:['user']}).then((collection)=>{
+      product = collection;
+    })
+    .catch((err) => {
+      res.status(500).json({error:true,data:{message:err.message}});
+    });
+  }
+
+  let finalProcess = function(){
     var data = {
-      product:collection,
+      product:product,
       users:users,
       goods:goods
     };
-    console.log(data.users);
+    // [DEBUG]
+    // console.log(data.users);
     res.render('detail',data);
-  })
-  .catch((err) => {
-    res.status(500).json({error:true,data:{message:err.message}});
-  });
+  }
+
+  let processAll = async function(){
+    await userGetProcess();
+    await goodGetProcess();
+    await productGetProcess();
+    finalProcess();
+  }
+
+  processAll();
 });
 
 // 自分の制作物の詳細(あまりに速度落ちるなら、詳細のテンプレートをフラグで分ける)
@@ -127,7 +157,9 @@ router.get('/mypage_detail/:productId/:userId',((req,res,next)=>{
   
 }));
 
-// 編集機能(モーダルからのアクセス)
+////////////////////////////////
+// マイページ詳細_編集(モーダルからのアクセス)
+////////////////////////////////
 router.post('/mypage_detail/:productId',upload.single('thumbnail'),function(req,res,next){
   req.check('title','タイトルは必ず入力してください。').notEmpty();
   try{
@@ -177,7 +209,6 @@ router.post('/mypage_detail/:productId',upload.single('thumbnail'),function(req,
       let title = req.body.title;
       let description = req.body.description;
       let publish = req.body.publish;
-      let create_image = req.file.filename;
       let loginUserObj = req.session.login;
       var dt = new Date();
       var formatted = dt.toFormat("YYYY-MM-DD HH24:MI:SS");
@@ -185,8 +216,10 @@ router.post('/mypage_detail/:productId',upload.single('thumbnail'),function(req,
         description += 'None';
       }
       description = description.replace(/\r?\n/g, '<br>');
-      console.log(description);
+      // [DEBUG]
+      // console.log(description);
       if(req.body.profile == 'succsess'){
+        let create_image = req.file.filename;
         new Product().where('id','=',productId).fetch().then((result)=>{
           try{
             cloudinary.uploader.destroy(result.attributes.product_cloud,function(error,result){
@@ -216,7 +249,7 @@ router.post('/mypage_detail/:productId',upload.single('thumbnail'),function(req,
           }
         });
       }else{
-        new Product().where('id','=',productId).save({'title':title,'description':description,'publish':publish,'update_at':formatted},{patch:true}).then((collection)=>{
+        new Product().where('id','=',productId).save({'title':title,'description':description,'publish':publish,'updated_at':formatted},{patch:true}).then((collection)=>{
           res.redirect('/detail/mypage_detail/'+productId+'/'+loginUserObj.id);
         });
       }

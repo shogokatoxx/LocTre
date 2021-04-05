@@ -6,29 +6,27 @@
     <div id="main">
       <%- include('includes/app_description',{}) %>
       <div class="container mt-3 mt-sm-5">
-        <div class="row" style="border:1px solid #666;border-radius:5px;">
+        <div class="row">
           <div class="col-12 col-sm-8">
             <div class="lists-title">
-              <h2 class="h2-mini-size pt-3 pb-3 pt-sm-3 pb-sm-3">・<%= users.attributes.username %>さんの投稿一覧</h2>
+              <h2 class="h2-mini-size pt-3 pb-3 pt-sm-0 pb-sm-0">・<%= users.attributes.username %>さんの投稿一覧</h2>
             </div>
           </div>
         </div>
       </div>
       <div class="container">
-        <div class="row">
-          <div class="col-12 col-sm-12 mt-3 mt-sm-5 row">
-            <h2 class="col-12 col-sm-4 icon">公開している制作物</h2>
+        <div class="row public-cards">
+          <div class="col-12 col-sm-12 mt-3 mt-sm-4 row lists-title">
+            <h3 class="col-12 col-sm-4 icon">公開している制作物</h3>
           </div>
           <% for(var i in content){ %>
             <% var obj = content[i] %>
             <% if(obj.attributes.publish == 'Public'){ %>
-            <div class="col-12 col-sm-4 mt-2 mt-sm-3">
-              <div class="card" style="border:1px solid #666;border-radius:10px;">
-                <div class="card-header">
-                  <a href="/detail/mypage_detail/<%= obj.id %>/<%= obj.relations.user.id %>/">
-                    <img src="http://res.cloudinary.com/do40sxkcd/image/upload/<%= obj.attributes.product_cloud %>" alt="<%= obj.title %>" height="200" width="310">
-                  </a>
-                </div>
+            <div class="col-12 col-sm-4 mt-2 mt-sm-3 d-flex card-parents">
+              <div class="card">
+                <a href="/detail/mypage_detail/<%= obj.id %>/<%= obj.relations.user.id %>/">
+                  <img class="card-img-title" src="http://res.cloudinary.com/do40sxkcd/image/upload/<%= obj.attributes.product_cloud %>" alt="<%= obj.title %>">
+                </a>
                 <div class="card-body">
                   <div class="user-tool" style="width:100%;">
                     <a id="publish-btn" class="user-tool-btns" href="/lists/change_publish/1/<%= obj.attributes.id %>">
@@ -91,21 +89,19 @@
             </div>
             <% } %>
           <% } %>
-          <div class="col-12 col-sm-12 mt-3 mt-sm-5">
-            <h2 class="col-12 col-sm-4 icon no-publish-title">非公開の制作物</h2>
+          <div class="col-12 col-sm-12 mt-3 mt-sm-5 lists-title">
+            <h3 class="col-12 col-sm-4 icon no-publish-title">非公開の制作物</h3>
           </div>
           <% for(var i in content){ %>
             <% var obj = content[i]; %>
             <% if(obj.attributes.publish == 'Private'){ %>
-              <div class="col-12 col-sm-4 mt-2 mt-sm-3">
-                <div class="card" style="border:1px solid #666;border-radius:10px;">
-                  <div class="card-header">
-                    <a href="/detail/mypage_detail/<%= obj.id %>/<%= obj.relations.user.id %>/">
-                      <img src="http://res.cloudinary.com/do40sxkcd/image/upload/<%= obj.attributes.product_cloud %>" alt="<%= obj.title %>" height="200" width="310">
-                    </a>
-                  </div>
+              <div class="col-12 col-sm-4 mt-2 mt-sm-3 d-flex">
+                <div class="card">
+                  <a href="/detail/mypage_detail/<%= obj.id %>/<%= obj.relations.user.id %>/">
+                    <img class="card-img-title" src="http://res.cloudinary.com/do40sxkcd/image/upload/<%= obj.attributes.product_cloud %>" alt="<%= obj.title %>">
+                  </a>
                   <div class="card-body">
-                    <div class="user-tool">
+                    <div class="user-tool" style="width:100%;">
                       <a id="publish-btn" class="user-tool-btns" href="/lists/change_publish/2/<%= obj.attributes.id %>">
                         <i class="fa fa-toggle-off"><span class="publish-btn-description"> (公開する)</span></i>
                       </a>

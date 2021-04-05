@@ -509,6 +509,19 @@
     width:20%;
     font-size:1.1rem;
   }
+  /* タイトル左アイコン */
+  .icon:before{
+    content:'';
+    padding:3px;
+    border-left:5px solid #9ac4a4;
+  }
+  /* コンテンツタイトル用 */
+  .lists-title h2{
+    font-size:24px;
+  }
+  .lists-title h3{
+    font-size:20px;
+  }
 
   /* [トップ画面CSS] */
   #top header{
@@ -579,9 +592,12 @@
   }
 
   /* [新規/人気_一覧画面CSS] */
-  .lists-title h2{
-    font-size:24px;
+
+  /* [マイページ_一覧画面CSS] */
+  .no-publish-title{
+    padding-left:0;
   }
+  
 
   /* [製作物_詳細画面CSS] */
   .detail-description{
@@ -700,11 +716,7 @@
   .good-btn:focus{
     outline:none;
   }
-  .icon:before{
-    content:'';
-    padding:3px;
-    border-left:7px solid #9ac4a4;
-  }
+  
   .user-tool-btns{
     display:inline-block;
     width:49%;

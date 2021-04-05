@@ -17,19 +17,17 @@
       <div class="container">
         <div class="row">
           <% for(var obj of content){ %>
-            <div class="col-12 col-sm-4 mt-2 mt-sm-3">
-              <div class="card" style="border:1px solid #666;border-radius:10px;">
-                <div class="card-header">
-                  <% if(obj.relations.user.id == users.id){ %>
-                    <a href="/detail/mypage_detail/<%= obj.id %>/<%= obj.relations.user.id %>/">
-                      <img src="http://res.cloudinary.com/do40sxkcd/image/upload/<%= obj.attributes.product_cloud %>" alt="<%= obj.title %>" height="100%" width="100%">
-                    </a>
-                  <% }else if(obj.relations.user.id != users.id){ %>
-                    <a href="/detail/<%= obj.id %>/<%= obj.relations.user.id %>/">
-                      <img src="http://res.cloudinary.com/do40sxkcd/image/upload/v1581089324/<%= obj.attributes.product_cloud %>" alt="<%= obj.title %>" height="100%" width="100%">
-                    </a>
-                  <% } %>
-                </div>
+            <div class="col-12 col-sm-4 mt-2 mt-sm-3 d-flex">
+              <div class="card">
+                <% if(obj.relations.user.id == users.id){ %>
+                  <a href="/detail/mypage_detail/<%= obj.id %>/<%= obj.relations.user.id %>/">
+                    <img class="card-img-title" src="http://res.cloudinary.com/do40sxkcd/image/upload/<%= obj.attributes.product_cloud %>" alt="<%= obj.title %>">
+                  </a>
+                <% }else if(obj.relations.user.id != users.id){ %>
+                  <a href="/detail/<%= obj.id %>/<%= obj.relations.user.id %>/">
+                    <img class="card-img-title" src="http://res.cloudinary.com/do40sxkcd/image/upload/v1581089324/<%= obj.attributes.product_cloud %>" alt="<%= obj.title %>">
+                  </a>
+                <% } %>
                 <div class="card-body">
                   <div class="card-title">
                     <h4><%= obj.attributes.title %></h4>
@@ -89,8 +87,8 @@
           <% } %>
         </div>
         <nav aria-label="Page navigation">
-          <ul class="pagination justify-content-center mt-3 p-1 mt-sm-5 p-sm-3" style="border:1px solid #999;">
-            <li class="page-item"><a class="page-link" href="/lists/lists_good/1">&lt;&lt; First</a></li>
+          <ul class="pagination justify-content-center mt-3 p-1 mt-sm-5 p-sm-3">
+            <li class="page-item"><a class="page-link" href="/lists/lists_good/1">&lt;&lt; 前へ</a></li>
             <% if(pagination.page == 1){ %>
               <% if(pagination.page+1 <= pagination.pageCount){ %>
                 <li class="page-item"><a class="page-link" href="/lists/lists_good/<%= pagination.page+1 %>"><%= pagination.page+1 %></a></li>
@@ -104,7 +102,7 @@
                   <li class="page-item"><a class="page-link" href="/lists/lists_good/<%= pagination.page-2 %>"><%= pagination.page-2 %></a></li>
               <% } %>
             <% } %>
-            <li class="page-item"><a class="page-link" href="/lists/lists_good/<%= pagination.pageCount %>">Next &gt;&gt;</a></li>
+            <li class="page-item"><a class="page-link" href="/lists/lists_good/<%= pagination.pageCount %>">次へ &gt;&gt;</a></li>
           </ul>
         </nav>
         <%- include('includes/click_menu',{users:users}) %>
